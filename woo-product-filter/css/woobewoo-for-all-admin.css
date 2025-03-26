@@ -4,7 +4,7 @@
 .wpfHidden {
 	display: none;
 }
-#toplevel_page_wpf-filters a[href*="woobewoo.com"] {
+#toplevel_page_wpf-filters a[href*="?page=wpf-filters&tab=gopro"] {
     color: green;
 }
 #wpfAddDialog{

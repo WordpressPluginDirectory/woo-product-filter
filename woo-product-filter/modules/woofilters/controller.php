@@ -38,7 +38,7 @@ class WoofiltersControllerWpf extends ControllerWpf {
 				}
 			}
 			
-			$html = FrameWpf::_()->getModule('woofilters')->render($data);
+			$html = FrameWpf::_()->getModule('woofilters')->getView()->renderHtml($data);
 
 			$html .= '<script type="text/javascript">window.wpfFrontendPage.init();' . ( $isPro ? 'window.wpfFrontendPage.eventsFrontendPro();' : '' ) . '</script>';
 			$res->setHtml($html);
@@ -170,7 +170,6 @@ class WoofiltersControllerWpf extends ControllerWpf {
 		if ( isset( $args['posts_per_page'] ) && $args['posts_per_page'] > 0 ) {
 			$queryvars['posts_per_page'] = $args['posts_per_page'];
 		}
-
 		$parts = parse_url($curUrl);
 		$urlQuery = array();
 		if (!empty($parts['query'])) {
@@ -233,8 +232,19 @@ class WoofiltersControllerWpf extends ControllerWpf {
 
 		$calcParentCategory = null;
 		$showProducts = true;
-		if ( !isset($parts['query']) || '' === $parts['query'] || 'wpf_fbv=1' === $parts['query']) {
-			if ( $shopPageId == $currentPageId ) {
+
+        $is_filter_category_selected = false;
+        if (!empty($parts['query']) && $use_category_filtration) {
+            if (!$categoryPageId && preg_match('/wpf_filter_cat_(\d+)=([^&]+)/', $parts['query'], $matches)) {
+                $categoryPageId = (int) $matches[2];
+            }
+            if ($categoryPageId) {
+                $is_filter_category_selected = true;
+            }
+        }
+
+		if ( !isset($parts['query']) || '' === $parts['query'] || 'wpf_fbv=1' === $parts['query'] || $is_filter_category_selected) {
+			if ( $shopPageId == $currentPageId && !$is_filter_category_selected) {
 				$pageDisplay = get_option( 'woocommerce_shop_page_display', '' );
 				if ( 'subcategories' == $pageDisplay || 'both' == $pageDisplay ) {
 					$calcParentCategory = 0;
@@ -308,7 +318,8 @@ class WoofiltersControllerWpf extends ControllerWpf {
 			if (count($categoryIn) > 0 && $use_category_filtration) {
 				ob_start();
 				$catIds = array_keys($categoryIn);
-				$cats = get_terms( 'product_cat', array(
+				$cats = get_terms( array(
+					'taxonomy' => 'product_cat',
 					'include' => $catIds
 				) );
 				foreach ($cats as $category) {
@@ -363,6 +374,7 @@ class WoofiltersControllerWpf extends ControllerWpf {
 				'total'    => $loopFoundPost,
 				'per_page' => $queryvars['posts_per_page'],
 				'current'  => $paged,
+				'orderedby' => '',
 			);
 			wc_get_template( 'loop/result-count.php', $args );
 			$resultCountHtml = ob_get_clean();
@@ -384,7 +396,7 @@ class WoofiltersControllerWpf extends ControllerWpf {
 			$paginateType = $queryvars['paginate_type'];
 			$paginateBase = $queryvars['paginate_base'];
 
-			if ('query' === $paginateType || 'shortcode' === $paginateType && strpos($fullBaseUrl, $paginateBase) === false) {
+			if ( 'query' === $paginateType || ( 'shortcode' === $paginateType && strpos($fullBaseUrl, $paginateBase) === false ) ) {
 				$fullBaseUrl .= ( strpos($fullBaseUrl, '?') === false ? '?' : '&' ) . $paginateBase . '=%#%';
 			}
 
@@ -518,8 +530,8 @@ class WoofiltersControllerWpf extends ControllerWpf {
 			$terms = $this->getModule()->getAttributeTerms($slug);
 			$keys = array_keys($terms);
 		}
-		$res->addData('terms', htmlentities(UtilsWpf::jsonEncode($terms)));
-		$res->addData('keys', htmlentities(UtilsWpf::jsonEncode($keys)));
+		$res->addData('terms', htmlentities(UtilsWpf::jsonEncode($terms), ENT_COMPAT));
+		$res->addData('keys', htmlentities(UtilsWpf::jsonEncode($keys), ENT_COMPAT));
 		return $res->ajaxExec();
 	}
 
@@ -813,7 +825,17 @@ class WoofiltersControllerWpf extends ControllerWpf {
 						if ($stockstatus) {
 							$metaKeyId = $module->getMetaKeyId('_stock_status');
 							if ( $metaKeyId ) {
-								$values = FrameWpf::_()->getModule( 'meta' )->getModel( 'meta_values' )->getMetaValueIds( $metaKeyId, $stockstatus );
+								$stockValues = FrameWpf::_()->getModule( 'meta' )->getModel( 'meta_values' )->getKeyValueIds( $metaKeyId, array(), true );
+								if (!is_array($stockstatus)) {
+									$stockstatus = array($stockstatus);
+								}
+								$values = array();
+								foreach ($stockstatus as $ss) {
+									$foundId = array_search($ss, $stockValues);
+									if (false !== $foundId) {
+										$values[] = $foundId;
+									}
+								}
 								$module->addWpfMetaClauses( array(
 									'keyId'  => $metaKeyId,
 									'isAnd'  => false,

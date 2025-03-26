@@ -105,12 +105,16 @@ class WoofiltersViewWpf extends ViewWpf {
 		FrameWpf::_()->addJSVar('admin.woofilters.list', 'url', admin_url('admin-ajax.php'));
 		FrameWpf::_()->getModule('templates')->loadBootstrap();
 		FrameWpf::_()->addStyle('admin.filters', $this->getModule()->getModPath() . 'css/admin.woofilters' . $addWC . '.css');
+		$proLink     = FrameWpf::_()->getModule('adminmenu')->getMainLink() . '&tab=gopro';
+
+		$this->assign('proLink', $proLink);
 		$this->assign('addNewLink', FrameWpf::_()->getModule('options')->getTabUrl('woofilters#wpfadd'));
 
 		return parent::getContent('woofiltersAdmin');
 	}
 
 	public function getEditTabContent( $idIn ) {
+		
 		$isWooCommercePluginActivated = $this->getModule()->isWooCommercePluginActivated();
 		if (!$isWooCommercePluginActivated) {
 			return;
@@ -148,7 +152,8 @@ class WoofiltersViewWpf extends ViewWpf {
 
 		$link        = FrameWpf::_()->getModule('options')->getTabUrl( $this->getCode() );
 		$linkSetting = FrameWpf::_()->getModule('options')->getTabUrl( 'settings' );
-		$proLink     = FrameWpf::_()->getModule('promo')->getWooBeWooPluginLink();
+		$proLink     = FrameWpf::_()->getModule('adminmenu')->getMainLink() . '&tab=gopro';
+
 		$this->assign('proLink', $proLink);
 		$this->assign('link', $link);
 		$this->assign('linkSetting', $linkSetting);
@@ -337,6 +342,9 @@ class WoofiltersViewWpf extends ViewWpf {
 
 		$slider = ( is_admin() || !$forFilter || ( strpos($order, '"wpfPrice"') || strpos($order, '"slider"') ) );
 		FrameWpf::_()->getModule('templates')->loadJqueryUi($slider);
+		if ($forFilter && $this->getFilterSetting($settings, 'initialise_immediately', false, 1) == 1) {
+			FrameWpf::_()->addJSVar('frontend.filters', 'wpIinitialiseImmediately', '1');
+		}
 	}
 
 	/**
@@ -562,9 +570,9 @@ class WoofiltersViewWpf extends ViewWpf {
 				}
 			}
 		}
-		$querySettingsStr =  htmlentities(UtilsWpf::jsonEncode($querySettings));
+		$querySettingsStr =  htmlentities(UtilsWpf::jsonEncode($querySettings), ENT_COMPAT);
 		unset($filterSettings['settings']['styles']);
-		$filterSettings = htmlentities(UtilsWpf::jsonEncode($filterSettings));
+		$filterSettings = htmlentities(UtilsWpf::jsonEncode($filterSettings), ENT_COMPAT);
 		$noWooPageData  = '';
 		if ($noWooPage) {
 			$noWooPageData = 'data-nowoo="true"';
@@ -591,7 +599,7 @@ class WoofiltersViewWpf extends ViewWpf {
 				'" data-filter="' . explode( '_', $viewId )[0] .
 				( $forceShowCurrentFilter ? '" data-force="' . $forceShowCurrentFilter : '' ) .
 				'" data-settings="' . $querySettingsStr .
-				'" data-default-query="' . ( empty( $defaultWCQuery ) || is_null( $defaultWCQuery ) ? '' : htmlentities( UtilsWpf::jsonEncode( $defaultWCQuery ) ) ) .
+				'" data-default-query="' . ( empty( $defaultWCQuery ) || is_null( $defaultWCQuery ) ? '' : htmlentities( UtilsWpf::jsonEncode( $defaultWCQuery ), ENT_COMPAT ) ) .
 				'" data-filter-settings="' . $filterSettings . '" ' . $noWooPageData . $proAttributes .
 				'>';
 
@@ -648,9 +656,10 @@ class WoofiltersViewWpf extends ViewWpf {
 		}
 
 		$blockHeight = $this->getFilterSetting($settingsOriginal['settings'], 'filter_block_height', false, true);
-		$blockStyle  = 'visibility:hidden; width:' . $blockWidth . '; float:left; ' . ( $blockHeight ? 'height:' . $blockHeight . 'px;overflow: hidden;' : '' );
+		//$blockStyle  = 'visibility:hidden; width:' . $blockWidth . '; float:left; ' . ( $blockHeight ? 'height:' . $blockHeight . 'px;overflow: hidden;' : '' );
+		$showImmediately = $this->getFilterSetting($settingsOriginal['settings'], 'show_filter_immediately') == '1';
 		$blockStyle  =
-			'visibility:hidden; width:' . $blockWidth . ';' .
+			( $showImmediately ? '' : 'visibility:hidden;' ) . 'width:' . $blockWidth . ';' .
 			( '100%' == $blockWidth ? '' : 'float:left;' ) .
 			( $blockHeight ? 'height:' . $blockHeight . 'px;overflow: hidden;' : '' );
 
@@ -679,12 +688,14 @@ class WoofiltersViewWpf extends ViewWpf {
 
 			$method = 'generate' . str_replace('wpf', '', $filter['id']) . 'FilterHtml';
 			if ('wpfCategory' !== $filter['id']) {
+				$settingsOriginal['page_taxonomies'] = $taxonomies;
 				if ( $isPro && method_exists($proView, $method) ) {
 					$html .= $proView->{$method}($filter, $settingsOriginal, $blockStyle, $key, $viewId);
 				} elseif (method_exists($this, $method)) {
 					$html .= $this->{$method}($filter, $settingsOriginal, $blockStyle, $key);
 				}
 			} else {
+				
 				if ( ! $prodCatId && isset( $querySettings['product_category_id'] ) ) {
 					$prodCatId = $querySettings['product_category_id'];
 				}
@@ -707,12 +718,14 @@ class WoofiltersViewWpf extends ViewWpf {
 			$html .= '<div class="wpfClear"></div>';
 		}
 
-		if ( $isPro && method_exists($proView, 'generateLoaderLayoutHtml') ) {
-			$html .= $proView->generateLoaderLayoutHtml($options);
-		} else {
-			$this->setFilterCss('#' . $filterId . ' .wpfLoaderLayout {position:absolute;top:0;bottom:0;left:0;right:0;background-color: rgba(255, 255, 255, 0.9);z-index: 999;}');
-			$this->setFilterCss('#' . $filterId . ' .wpfLoaderLayout i {position:absolute;z-index:9;top:50%;left:50%;margin-top:-30px;margin-left:-30px;color:rgba(0,0,0,.9);}');
-			$html .= '<div class="wpfLoaderLayout"><i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i></div>';
+		if (!$showImmediately) {
+			if ( $isPro && method_exists($proView, 'generateLoaderLayoutHtml') ) {
+				$html .= $proView->generateLoaderLayoutHtml($options);
+			} else {
+				$this->setFilterCss('#' . $filterId . ' .wpfLoaderLayout {position:absolute;top:0;bottom:0;left:0;right:0;background-color: rgba(255, 255, 255, 0.9);z-index: 999;}');
+				$this->setFilterCss('#' . $filterId . ' .wpfLoaderLayout i {position:absolute;z-index:9;top:50%;left:50%;margin-top:-30px;margin-left:-30px;color:rgba(0,0,0,.9);}');
+				$html .= '<div class="wpfLoaderLayout"><i class="fa fa-spinner fa-pulse fa-3x fa-fw"></i></div>';
+			}
 		}
 
 		//if loader enable on load
@@ -728,6 +741,7 @@ class WoofiltersViewWpf extends ViewWpf {
 		$html .= '</div>';
 		$html .= self::$filterExistsTermsJS;
 		$html  = '<style type="text/css" id="wpfCustomCss-' . $viewId . '">' . DispatcherWpf::applyFilters('addCustomCss', $customCss . self::$filtersCss, $settings, $filterId) . '</style>' . $html;
+
 		$this->resetFilterExistsTerms();
 
 		return $html;
@@ -1136,17 +1150,18 @@ class WoofiltersViewWpf extends ViewWpf {
 		$productSortBy  = array();
 		$sortBySelected = array($optionsSelected);
 		$obj            = new stdClass();
+
 		foreach ($options as $key => $option) {
 			if (!empty($option)) {
 				$obj->term_id    = $option;
-				$obj->slug       = $option;
+				$obj->slug       = 'default' == $option ? '' : $option;
 				$obj->name       = $optionsAll[$option];
 				$productSortBy[] = clone $obj;
 			}
 		}
 
 		$noActive = $optionsSelected ? '' : 'wpfNotActive';
-
+		
 		$html =
 			'<div class="wpfFilterWrapper ' . $noActive . '"' .
 				$this->setFitlerId() .
@@ -1159,6 +1174,30 @@ class WoofiltersViewWpf extends ViewWpf {
 
 		$html .= $this->generateFilterHeaderHtml($filter, $filterSettings, $noActive);
 		$html .= $this->generateDescriptionHtml($filter);
+		
+		$perPage = '';
+		$perPageLeft = false;
+		if ($this->getFilterSetting($settings, 'f_show_per_page', false)) {
+			$perPageList = explode(',', $this->getFilterSetting($settings, 'f_per_page_list', '48,24,12'));
+			$perPageLeft = $this->getFilterSetting($settings, 'f_per_page_position', 'left') == 'left';
+			$perPage = '<select class="wpfPerPageDD">';
+			if ( ReqWpf::getVar('wpf_count') ) {
+				$countSelected = ReqWpf::getVar('wpf_count');
+			} else {
+				$countSelected = empty($perPageList) ? 0 : $perPageList[0];
+			}
+		
+			foreach ($perPageList as $l) {
+				$n = (int) trim($l);
+				if (!empty($n)) {
+					$perPage .= '<option value="' . $n . '"' . ( $n == $countSelected ? ' selected' : '' ) . '>' . $n . '</option>';
+				}
+			}
+			$perPage .= '</select>';
+			$this->setFilterCss('#' . self::$blockId . ' .wpfFilterContent {display:flex}');
+			$this->setFilterCss('#' . self::$blockId . ' .wpfPerPageDD {margin-' . ( $perPageLeft ? 'right' : 'left' ) . ': 2px;}');
+		}
+		
 
 		self::$leer = true;
 		$htmlOpt    = $this->generateTaxonomyOptionsHtml( $productSortBy, $sortBySelected, $filter );
@@ -1167,7 +1206,7 @@ class WoofiltersViewWpf extends ViewWpf {
 				$html .= '<ul class="wpfFilterVerScroll">' . $htmlOpt . '</ul>';
 				break;
 			case 'dropdown':
-				$html .= '<select>' . $htmlOpt . '</select>';
+				$html .= ( $perPageLeft ? $perPage : '' ) . '<select>' . $htmlOpt . '</select>' . ( $perPageLeft ? '' : $perPage );
 				break;
 			case 'mul_dropdown':
 				$settings['f_single_select']              = true;
@@ -1247,7 +1286,7 @@ class WoofiltersViewWpf extends ViewWpf {
 		}
 
 		$onlyNeeded = false;
-		if (empty($includeCategoryId) && !$allProductsFiltering && !empty($allTerms)) {
+		if (empty($includeCategoryId) && !$allProductsFiltering && !empty($allTerms) && empty($args['only_parent'])) {
 			$args['include'] = $allTerms;
 			$onlyNeeded = true;
 		}
@@ -1260,7 +1299,6 @@ class WoofiltersViewWpf extends ViewWpf {
 				}
 			}
 		}
-
 		remove_filter('woocommerce_change_term_counts', array($this, 'notChangeCategoryCount'));
 
 		if (!$productCategory) {
@@ -1318,6 +1356,7 @@ class WoofiltersViewWpf extends ViewWpf {
 		
 		$setCurCat = false;
 		if ($prodCatId && $this->getFilterSetting($settings, 'f_set_page_category', false)) {
+			$isEmpty = empty($catSelected);
 			$catSelected[] = $prodCatId;
 			if ($this->getFilterSetting($settings, 'f_set_parent_page_category', false)) {
 				$catSelected = array_merge($catSelected, get_ancestors($prodCatId, 'product_cat'));
@@ -1326,7 +1365,16 @@ class WoofiltersViewWpf extends ViewWpf {
 			if (is_array($childs)) {
 				$catSelected = array_merge($catSelected, $childs);
 			}*/
-			$setCurCat = true;
+			if ($isEmpty && $includeCategoryId) {
+				foreach ($catSelected as $cat) {
+					if (in_array($cat, $includeCategoryId)) {
+						$setCurCat = true;
+						break;
+					}
+				}
+			} else {
+				$setCurCat = true;
+			}
 		}
 
 		$layout      = $this->getFilterLayout($settings, $filterSettings);
@@ -1415,7 +1463,8 @@ class WoofiltersViewWpf extends ViewWpf {
 		$html .= $this->generateDescriptionHtml($filter);
 		if ( 'list' === $type && $this->getFilterSetting($settings, 'f_show_search_input', false) ) {
 			$html .= '<div class="wpfSearchWrapper"><input class="wpfSearchFieldsFilter passiveFilter" type="text" placeholder="' . esc_html__($this->getFilterSetting($settings, 'f_search_label', $labels['search']), 'woo-product-filter') . '"' .
-				( $this->getFilterSetting($settings, 'f_unfolding_by_search', false) ? ' data-unfolding="1"' : '' ) . '></div>';
+				( $this->getFilterSetting($settings, 'f_unfolding_by_search', false) ? ' data-unfolding="1"' : '' ) .
+				( $this->getFilterSetting($settings, 'f_collapse_by_delete', false) ? ' data-collapse-search="1"' : '' ) . '></div>';
 		}
 		$html .= '<div class="wpfCheckboxHier">';
 		$html .= $htmlOpt;
@@ -1713,6 +1762,30 @@ class WoofiltersViewWpf extends ViewWpf {
 			$tagSelected      = $includeTagsId;
 			$filter['is_ids'] = true;
 		}
+		
+		$setCurTag = false;
+		if ($this->getFilterSetting($settings, 'f_set_page_tag', false)) {
+			$pageTaxonomies = $this->getFilterSetting($filterSettings, 'page_taxonomies', array());
+			if (!empty($pageTaxonomies) && is_array($pageTaxonomies)) {
+				$pageTagId = $this->getFilterSetting($pageTaxonomies, 'product_tag', 0, 1);
+				if ($pageTagId) {
+					if (empty($tagSelected)) {
+						$tagSelected = array($pageTagId);
+						$filter['is_ids'] = true;
+					} else {
+						if ($this->getFilterSetting($filter, 'is_ids', false)) {
+							$tagSelected[] = $pageTagId;
+						} else {
+							$tagElem = get_term_by('id', $pageTagId, 'product_tag', ARRAY_A);
+							if ($tagElem) {
+								$tagSelected[] = $tagElem['slug'];
+							}
+						}
+					}
+					$setCurTag = true;
+				}
+			}
+		}
 		$layout      = $this->getFilterLayout($settings, $filterSettings);
 		$inLineClass = $layout['class'];
 
@@ -1767,11 +1840,14 @@ class WoofiltersViewWpf extends ViewWpf {
 				'excludes' => $excludeIds,
 				'includes' => false,
 				'display' => $layout,
-				'class' => $inLineClass
+				'class' => $inLineClass,
+				'show_all' => $show_all_tags,
+				'view_id' => $viewId,
 			));
 		}
 
-		$noActive    = $defSelected ? '' : 'wpfNotActive';
+		//$noActive    = $defSelected ? '' : 'wpfNotActive';
+		$noActive    = $defSelected || $setCurTag ? '' : 'wpfNotActive';
 		$noActive    = $hidden_tags ? 'wpfHidden' : $noActive;
 		$preselected = $hidden_tags ? ' wpfPreselected' : '';
 
@@ -2069,11 +2145,17 @@ class WoofiltersViewWpf extends ViewWpf {
 		$options  = explode(',', $options);
 
 		$defSelected   = $this->getFilterUrlData('pr_stock');
+		if (empty($defSelected)) {
+			if ($this->getFilterSetting($settings, 'f_default_stock', false) && $this->getFilterSetting($settings, 'f_no_preselect', false)) {
+				$defSelected = $this->getFilterSetting($settings, 'f_hidden_stock_status');
+			}
+		}
+		
 		$stockSelected = $defSelected;
 		if ($stockSelected) {
 			$stockSelected = explode('|', $stockSelected);
 		}
-
+		
 		$inStock = array();
 
 		$changeNames = ( $this->getFilterSetting($settings, 'f_status_names', '') == 'on' );
@@ -2438,9 +2520,7 @@ class WoofiltersViewWpf extends ViewWpf {
 
 	public function generateSearchFieldList( $html, $settings, $labels ) {
 		$type = $this->getFilterSetting($settings, 'f_frontend_type', 'list');
-		if (
-			'list' != $type &&
-			'radio' != $type ||
+		if ( ( 'list' != $type && 'radio' != $type ) ||
 			!$this->getFilterSetting($settings, 'f_show_search_input', false
 		) ) {
 			return $html;
@@ -2529,6 +2609,7 @@ class WoofiltersViewWpf extends ViewWpf {
 		$taxonomy = is_array( $taxonomy ) ? array_shift( $taxonomy ) : $taxonomy;
 		// get all direct decendants of the $parent
 		$args = array(
+			'taxonomy' => $taxonomy,
 			'hide_empty' => $argsIn['hide_empty'],
 		);
 		if (isset($argsIn['order'])) {
@@ -2563,7 +2644,7 @@ class WoofiltersViewWpf extends ViewWpf {
 			}
 		}
 
-		$terms = get_terms( $taxonomy, $args );
+		$terms = get_terms( $args );
 		// prepare a new array.  these are the children of $parent
 		// we'll ultimately copy all the $terms into this new array, but only after they
 		// find their own children
@@ -2713,7 +2794,7 @@ class WoofiltersViewWpf extends ViewWpf {
 
 			$titleTag = $this->getFilterSetting($filter['settings'], 'f_custom_tags_settings[title_' . $preCount . ']', 0);
 		}
-		$titleTag = $titleTag && $showCustomTags ? FrameWpf::_()->getModule('woofilters')->getFilterTagsList()[$titleTag] : 'div';
+		$titleTag = $titleTag && $showCustomTags ? FrameWpf::_()->getModule('woofilters')->getFilterTagsList()[$titleTag] : 'span';
 
 		if ( is_array($layout) && 'dropdown' != $type && 'mul_dropdown' != $type ) {
 			if ($layout['is_ver']) {
@@ -2742,7 +2823,7 @@ class WoofiltersViewWpf extends ViewWpf {
 			}
 			$termId      = isset($filterItem->term_id) ? $filterItem->term_id : '';
 			$style       = '';
-			$displayName = $filterItem->name;
+			$displayName = DispatcherWpf::applyFilters('getItemDisplayName', empty($filterItem->name_label) ? $filterItem->name : $filterItem->name_label, $filterItem);
 
 			$addAttrs = $menuMode ? ' data-link="' . get_term_link($termId, 'product_cat') . '"' : '';
 
@@ -3050,10 +3131,10 @@ class WoofiltersViewWpf extends ViewWpf {
 		if (empty($_SERVER['HTTP_HOST'])) {
 			return '';
 		}
-		if (isset($_SERVER['HTTPS']) &&
-			( ( 'on' == $_SERVER['HTTPS'] ) || ( 1 == $_SERVER['HTTPS'] ) ) ||
-			isset($_SERVER['HTTP_X_FORWARDED_PROTO']) &&
-			( 'https' == $_SERVER['HTTP_X_FORWARDED_PROTO'] ) ) {
+		if ( ( isset($_SERVER['HTTPS']) &&
+			( ( 'on' == $_SERVER['HTTPS'] ) || ( 1 == $_SERVER['HTTPS'] ) ) ) ||
+			( isset($_SERVER['HTTP_X_FORWARDED_PROTO']) &&
+			( 'https' == $_SERVER['HTTP_X_FORWARDED_PROTO'] ) ) ) {
 			$protocol = 'https://';
 		} else {
 			$protocol = 'http://';
@@ -3175,6 +3256,7 @@ class WoofiltersViewWpf extends ViewWpf {
 	 */
 	public function findTaxonomyIncludeChildrenStatus( $isHideChild, $isExtendParentFiltering, $type ) {
 		$typeWIthotHierarchyList = array(
+			'mul_dropdown',
 			'multi',
 			'buttons',
 			'text',
@@ -3300,7 +3382,7 @@ class WoofiltersViewWpf extends ViewWpf {
 	 * Set filter id
 	 */
 	public function setFitlerId() {
-		return  'id="' . self::$blockId . '" data-order-key="' . self::$filterOrderKey . '" ';
+		return  ' id="' . self::$blockId . '" data-order-key="' . self::$filterOrderKey . '" ';
 	}
 
 	/**

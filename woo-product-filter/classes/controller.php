@@ -55,7 +55,9 @@ abstract class ControllerWpf {
 		}
 		$parentModule = FrameWpf::_()->getModule( $this->getCode() );
 		$className = '';
-		if (importWpf($parentModule->getModDir() . 'models' . DS . $name . '.php')) {
+		if (file_exists($parentModule->getModDir() . 'models' . DS . $name . '.php')) {
+			require $parentModule->getModDir() . 'models' . DS . $name . '.php';
+		//if (importWpf($parentModule->getModDir() . 'models' . DS . $name . '.php')) {
 			$className = toeGetClassNameWpf($name . 'Model');
 		}
 		
@@ -72,8 +74,9 @@ abstract class ControllerWpf {
 		}
 		$parentModule = FrameWpf::_()->getModule( $this->getCode() );
 		$className = '';
-		
-		if (importWpf($parentModule->getModDir() . 'views' . DS . $name . '.php')) {
+		if (file_exists($parentModule->getModDir() . 'views' . DS . $name . '.php')) {
+			require $parentModule->getModDir() . 'views' . DS . $name . '.php';
+			//if (importWpf($parentModule->getModDir() . 'views' . DS . $name . '.php')) {
 			$className = toeGetClassNameWpf($name . 'View');
 		}
 		
@@ -144,7 +147,7 @@ abstract class ControllerWpf {
 		$page = (int) ReqWpf::getVar('page');
 		$rowsLimit = (int) ReqWpf::getVar('rows');
 		$orderBy = ReqWpf::getVar('sidx');
-		$sortOrder = ReqWpf::getVar('sord');
+		$sortOrder = ReqWpf::getVar('sord') == 'asc' ? 'asc' : 'desc';
 
 		// Our custom search
 		$search = ReqWpf::getVar('search');
@@ -192,7 +195,11 @@ abstract class ControllerWpf {
 		if ($limitStart < 0) {
 			$limitStart = 0;
 		}
-		
+		$tbl = FrameWpf::_()->getTable( $model->getTbl() );
+		if (is_null($tbl) || !$tbl->haveField($orderBy)) {
+			$orderBy = 'id';
+		}
+
 		$data = $model
 			->setLimit($limitStart . ', ' . $rowsLimit)
 			->setOrderBy( $this->_prepareSortOrder($orderBy) )

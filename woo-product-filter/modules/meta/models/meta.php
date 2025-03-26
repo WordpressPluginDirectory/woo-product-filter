@@ -23,7 +23,6 @@ class MetaModelWpf extends ModelWpf {
 
 	private function setKeys() {
 		$this->keysArray = array();
-		$this->keysSQL   = array();
 		$len             = $this->maxKeySize;
 		for ($k = 2; $k <= $len; $k++) {
 			$this->keysArray['key' . $k] = '';
@@ -195,7 +194,7 @@ class MetaModelWpf extends ModelWpf {
 					continue;
 				}
 				$keyId      = $keyData['id'];
-				$status     = $keyData['status'];
+				$status     = empty($keyData['status']) ? 0 : $keyData['status'];
 				$needLock   = $isAllProducts;
 				$needRecalc = false;
 				if (2 == $status) {
@@ -417,6 +416,12 @@ class MetaModelWpf extends ModelWpf {
 						} else {
 							$this->pushError(DbWpf::getError());
 							$this->pushError($query);
+							return false;
+						}
+					}
+					$func = 'afterCalcMeta' . $keyName;
+					if (method_exists($this, $func )) {
+						if (!$this->$func($productId, $keyData, $tempTable)) {
 							return false;
 						}
 					}
@@ -681,6 +686,89 @@ class MetaModelWpf extends ModelWpf {
 		}
 		return true;
 	}
+	
+	public function afterCalcMeta_stock_status( $productId, $keyData, $tempTable ) {
+		$groupedTerm = get_term_by('name', 'grouped', 'product_type', ARRAY_A);
+		if ($groupedTerm && !empty( $groupedTerm['term_id'])) {
+			$grId = $groupedTerm['term_id'];
+			$keyId = $keyData['id'];
+			$instockId = $this->valsModel->getMetaValueId($keyId, 'instock');
+			$outofstockId = $this->valsModel->getMetaValueId($keyId, 'outofstock');
+			$query = 'SELECT 1 FROM @__meta_data WHERE key_id=' . $keyId . ' AND val_id!=' . $outofstockId . ' AND product_id IN '; 
+			$updateO = 'UPDATE @__meta_data SET val_id=' . $outofstockId . ' WHERE key_id=' . $keyId . ' AND val_id!=' . $outofstockId . ' AND product_id IN ';
+			$updateI = 'UPDATE @__meta_data SET val_id=' . $instockId . ' WHERE key_id=' . $keyId . ' AND val_id!=' . $instockId . ' AND product_id IN ';
+			$controlBundle = FrameWpf::_()->getModule('options')->getModel()->get('index_group_bundle') == 1;
+			
+			$limit = 500;
+			$offset = 0;
+			$limitQuery = ' SELECT p.id, m.meta_id, m.meta_value' . 
+				' FROM ' . ( $tempTable ? $tempTable : ' `#__posts` ' ) . ' as p' .
+				' INNER JOIN `#__term_relationships` AS tr ON (tr.`object_id`=p.ID AND tr.`term_taxonomy_id`=' . $grId . ') '. 
+				" INNER JOIN `#__postmeta` as m ON (m.post_id=p.ID AND m.meta_key='_children' AND m.meta_value!='')" .
+				' ORDER BY meta_id LIMIT ';
+			do {
+				$q = $limitQuery . $offset . ',' . $limit;
+				$data = DbWpf::get($q,0);
+				if (false === $data) { 
+					$this->pushError(DbWpf::getError());
+					$this->pushError($q);
+					return false;
+				}
+				$listIdsO = '';
+				$listIdsI = '';
+				foreach ($data as $k => $values) {
+					$valuesArr = @unserialize($values['meta_value']);
+					if (is_array($valuesArr)) {
+						if ($controlBundle) {
+							$vars = array();
+							foreach ($valuesArr as $vId) {
+								$child = wc_get_product($vId);
+								if ($child->get_type() != 'bundle') {
+									$vars[] = $vId;
+								}
+							}
+						} else {
+							$vars = $valuesArr;
+						}
+						if (empty($vars)) {
+							continue;
+						}
+
+						$q = $query . '(' . implode(',', UtilsWpf::controlNumericValues($vars, 'id')) . ') LIMIT 1';
+						$exist = DbWpf::get($q, 'one');
+						if (false === $exist) { 
+							$this->pushError(DbWpf::getError());
+							$this->pushError($q);
+							return false;
+						}
+						if (is_null($exist)) { 
+							$listIdsO .= $values['id'] . ',';
+						} else {
+							$listIdsI .= $values['id'] . ',';
+						}
+					}
+				}
+				if (!empty($listIdsO)) {
+					$q = $updateO . '(' . substr($listIdsO, 0, -1) . ')';
+					if (!DbWpf::query($q)) {
+						$this->pushError(DbWpf::getError());
+						$this->pushError($q);
+						return false;
+					}
+				}
+				if (!empty($listIdsI)) {
+					$q = $updateI . '(' . substr($listIdsI, 0, -1) . ')';
+					if (!DbWpf::query($q)) {
+						$this->pushError(DbWpf::getError());
+						$this->pushError($q);
+						return false;
+					}
+				}
+				$offset += $limit;
+			} while ( !empty($data) && ( count($data) >= $limit ) );
+		}
+		return true;
+	}
 
 	public function optimizeMetaTables() {
 		$optimizeTables = array( 'meta_data', 'meta_values', 'meta_values_bk' );
@@ -757,15 +845,17 @@ class MetaModelWpf extends ModelWpf {
 						\WC_Price_Calculator_Product::variable_product_unsync( $product );
 
 						// all other product types
-					} elseif ( $measurement = \WC_Price_Calculator_Product::get_product_measurement( $product, $settings ) ) {
+					} else {
+						$measurement = \WC_Price_Calculator_Product::get_product_measurement( $product, $settings );
+						if ( $measurement ) {
+							$measurement->set_unit( $settings->get_pricing_unit() );
+							$measurementValue = $measurement ? $measurement->get_value() : null;
 
-						$measurement->set_unit( $settings->get_pricing_unit() );
-						$measurementValue = $measurement ? $measurement->get_value() : null;
-
-						if ( $measurement && $measurementValue ) {
-							// convert to price per unit
-							$price  = floatval($product->get_price( 'edit' )) / $measurementValue;
-							$salePrice  = floatval($product->get_sale_price( 'edit' )) / $measurementValue;
+							if ( $measurement && $measurementValue ) {
+								// convert to price per unit
+								$price  = floatval($product->get_price( 'edit' )) / $measurementValue;
+								$salePrice  = floatval($product->get_sale_price( 'edit' )) / $measurementValue;
+							}
 						}
 					}
 				}
@@ -792,6 +882,6 @@ class MetaModelWpf extends ModelWpf {
 	public function hasEmojis( $string ) {
 		$emojis_regex = '/[\x{1F600}-\x{1F64F}\x{2700}-\x{27BF}\x{1F680}-\x{1F6FF}\x{24C2}-\x{1F251}\x{1F30D}-\x{1F567}\x{1F900}-\x{1F9FF}\x{1F300}-\x{1F5FF}\x{1FA70}-\x{1FAF6}]/u';
 		preg_match($emojis_regex, $string, $matches);
-		return (empty($matches) ? false : true);
+		return ( empty($matches) ? false : true );
 	}
 }

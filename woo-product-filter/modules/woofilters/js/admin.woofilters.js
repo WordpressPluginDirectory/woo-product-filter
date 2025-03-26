@@ -423,7 +423,7 @@
 		settingsValues.off('change wpf-change', 'select').on('change wpf-change', 'select', function () {
 			var elem = jQuery(this),
 				value = elem.val(),
-				hidden = elem.closest('.settings-value').hasClass('wpfHidden') || elem.closest('.wpfHidden', '.sub-tab-content').length,
+				hidden = elem.closest('.settings-value').hasClass('wpfHidden') || ( elem.closest('.wpfHidden', '.sub-tab-content').length && !elem.closest('.wpfHidden', '.sub-tab-content').is('.wpfOptions')),
 				name = elem.attr('name'),
 				filterBlock = elem.closest('.wpfFilter'),
 				block = filterBlock.length ? filterBlock : settingsValues,
@@ -522,6 +522,9 @@
 			jQuery(".chosen-choices").sortable();
 			jQuery('.color-group').trigger('color-group');
 		});
+		if (WPF_DATA.isWCLicense) {
+			jQuery('.wpfProLabel a').attr('href','');
+		}
 
 
 		jQuery("body").off('change', "[name='f_show_inputs']").on('change', "[name='f_show_inputs']", function (e) {
@@ -1071,6 +1074,10 @@
 			jQuery('#wpfContainerSortBy a.js-wpfMove').on('click', function(e) {
 				wpfSortBy_MoveRow(e, this);
 			});
+		} else if( id === 'wpfTags' ){
+			if(typeof(_this.changeAttributeTermsPro) == 'function') {
+				_this.changeAttributeTermsPro(blockTemplate);
+			}
 		}
 		if(typeof(_this.eventsFiltersPro) == 'function') {
 			_this.eventsFiltersPro(blockTemplate, settings);
@@ -1167,7 +1174,8 @@
 									break;
 								case 'wpfTags':
 								case 'wpfAttribute':
-									preValue = filterName + '=' + (items['f_query_logic'] == 'or' ? mlist.replace(/,/g, '|') : mlist);
+									var fn = (items['f_query_logic'] == 'not_in' ? 'pr_'+filterName : filterName);
+									preValue = fn + '=' + (items['f_query_logic'] == 'or' ? mlist.replace(/,/g, '|') : mlist);
 									break;
 							}
 						} else {

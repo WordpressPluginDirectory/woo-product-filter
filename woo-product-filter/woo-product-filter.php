@@ -3,13 +3,14 @@
  * Plugin Name: Product Filter by WBW
  * Plugin URI: https://woobewoo.com/product/woocommerce-filter/
  * Description: Filter products in your store in most efficient way
- * Version: 2.5.4
- * Author: WBW
+ * Version: 2.8.0
+ * Author: woobewoo
  * Author URI: https://woobewoo.com/
  * Text Domain: woo-product-filter
  * Domain Path: /languages
  * WC requires at least: 3.4.1
- * WC tested up to: 8.6.1
+ * WC tested up to: 9.7.1
+ * Requires Plugins: woocommerce
  **/
 /**
  * Base config constants and functions
@@ -22,7 +23,7 @@ add_action( 'before_woocommerce_init', function() {
 	}
 } );
 /**
- * Connect all required core classes
+ * Connect all required core classes 
  */
 if ( trueRequestWpf() ) {
 	importClassWpf( 'DbWpf' );

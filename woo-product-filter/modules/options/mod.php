@@ -70,15 +70,18 @@ class OptionsWpf extends ModuleWpf {
 		$tabs['settings'] = array(
 			'label' => esc_html__('Settings', 'woo-product-filter'), 'callback' => array($this, 'getSettingsTabContent'), 'fa_icon' => 'fa-gear', 'sort_order' => 30,
 		);
-		if (!FrameWpf::_()->isPro()) {
+		if (!(FrameWpf::_()->moduleExists('license') && FrameWpf::_()->getModule('license')) && !FrameWpf::_()->isWCLicense()) {
 			$tabs['gopro'] = array(
-				'label' => esc_html__('Go PRO', 'woo-product-filter'), 'callback' => 'https://woobewoo.com/plugins/woocommerce-filter/#license', 'blank' => true, 'fa_icon' => 'fa-star', 'sort_order' => 998,
+				'label' => esc_html__('Go PRO', 'woo-product-filter'), 'callback' => array($this, 'getProTabContent'), 'fa_icon' => 'fa-star', 'sort_order' => 998,
 			);
 		}
 		return $tabs;
 	}
 	public function getSettingsTabContent() {
 		return $this->getView()->getSettingsTabContent();
+	}
+	public function getProTabContent() {
+		return $this->getView()->getProTabContent();
 	}
 	public function getTabs() {
 		if (empty($this->_tabs)) {
@@ -193,6 +196,12 @@ class OptionsWpf extends ModuleWpf {
 						'disable_plugin_sorting' => array(
 							'label' => esc_html__( 'Disable plugin sorting', 'woo-product-filter' ),
 							'desc'  => esc_html__( 'If this option is enabled, then the Product Filter by WBW will not use its sorting functionality. Woocommerce or other plugins sorting algorithms will be used.', 'woo-product-filter' ),
+							'def'   => '0',
+							'html'  => 'checkboxHiddenVal',
+						),
+						'index_group_bundle' => array(
+							'label' => esc_html__( 'Indexing stockstatus for Grouped+Bundle Products', 'woo-product-filter' ),
+							'desc'  => esc_html__( 'If you have groupped products and have bundle products in them and you go to properly index the stockstatus of these groupped products, then enable this option. Attention: enable this option only if it is really necessary, as it can significantly slow down the indexing process.', 'woo-product-filter' ),
 							'def'   => '0',
 							'html'  => 'checkboxHiddenVal',
 						),

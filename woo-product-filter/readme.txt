@@ -1,31 +1,36 @@
 === Product Filter by WBW ===
-Contributors: WBW
+Contributors: woobewoo
 Donate link: https://woobewoo.com/product/woocommerce-filter/
-Tags: product filter, WooCommerce product filter, shop filter, e-commerce filter, WooCommerce filter, product, filter 
+Tags: product filter, WooCommerce product filter, shop filter, e-commerce filter, WooCommerce filter
 Requires at least: 3.4.0
-Tested up to: 6.4
-Stable tag: 2.5.4
+Tested up to: 6.7
+Stable tag: 2.8.0
+License: GPLv2 or later
+License URI: https://www.gnu.org/licenses/gpl-2.0.html
  
-Filter products by categories, attributes, prices, and more. 100% Elementor Compatibility. Shoppers easily find products with WooCommerce Product Filter
+Filter products by categories, attributes, prices, and more. Elementor Compatibility. Shoppers easily find products with WooCommerce Product Filter
 
 == Description ==
-[WooCommerce Product Filter plugin](https://woobewoo.com/plugins/woocommerce-filter/?utm_source=wordpress&utm_medium=description&utm_campaign=filter "WooCommerce Product Filter plugin") allows customers to filter your products/items by price, categories, tags, taxonomy, and attributes. Each filter criteria customizable, giving you maximum control.
-100% Elementor Compatibility
+The [WooCommerce Product Filter plugin](https://woobewoo.com/plugins/woocommerce-filter/?utm_source=wordpress&utm_medium=description&utm_campaign=filter "WooCommerce Product Filter plugin")  enhances your store by allowing customers to refine their searches by price, categories, tags, taxonomy, attributes and more.
 
-= WooCommerce Product Filter Main Features =
+It's fully customizable and 100% compatible with Elementor, giving you full control over filtering options.
 
-**[Filters by any criteria](https://woobewoo.com/feature/filters-by-price-price-range-sort-categories-tags-and-attributes?utm_source=wordpress&utm_medium=criteria&utm_campaign=filter "Filters by any criteria")**
-customers can filter products by any criteria Price, Price range, Categories, Tags, Author, Featured, On Sale, In Stock, Rating, Search by text**, Attribute filters.
-**[Variations of a display at the front end](https://woobewoo.com/plugins/woocommerce-filter/?utm_source=wordpress&utm_medium=description&utm_campaign=filter "Main example")**
-Display filters in any convenient way: radio button list (single select) dropdown (single select), checkbox list (multi-select)** and icons** for attribute filters (colour, size, rating).
+= WooCommerce Product Filter Key Features =
+
+**[Comprehensive Filtering](https://woobewoo.com/feature/filters-by-price-price-range-sort-categories-tags-and-attributes?utm_source=wordpress&utm_medium=criteria&utm_campaign=filter "Comprehensive Filtering")**
+let customers filter products by: Price, Price range, Categories, Tags, Author, Featured, On Sale, In Stock, Rating, Search by text**, Attribute filters.
+
+**[Flexible Display Options](https://woobewoo.com/plugins/woocommerce-filter/?utm_source=wordpress&utm_medium=description&utm_campaign=filter "Main example")**
+present the filters in various formats to suit your storefront's design and user preferences. Options include: radio button list (single select) dropdown (single select), checkbox list (multi-select)** and icons** for attribute filters (colour, size, rating).
 
 **[AJAX live search](https://woobewoo.com/feature/ajax-live-search?utm_source=wordpress&utm_medium=ajax&utm_campaign=filter "AJAX live search")**
-Make filtering even more comfortable by enabling AJAX search or let the process start as soon as the user selects all the options and presses the filtering button.
+Enable instant results without page reloads for a faster shopping  with AJAX live search. AJAX search provides instant filtering results without the need to reload the page. This feature can be configured to activate immediately after a user selects their desired filter options and clicks the filter button, making product searches faster and more intuitive.
 
-**[Elementor Compatibility](https://woobewoo.com/documentation/elementor-compatibility/ "Elementor Compatibility")**
-WooCommerce Product Filter compatible with Ellementor. With this option, you can create a product filter directly in the Elementor. All the functions of the Product Filter by WBW will be available directly in the Elementor tab.
+**[Elementor Integration](https://woobewoo.com/documentation/elementor-compatibility/ "Elementor Compatibility")**
+WooCommerce Product Filter compatible with Ellementor. Seamlessly create and customize filters using Elementor’s interface. 
+All features of the WooCommerce Product Filter by WBW are accessible within the Elementor tab, providing a streamlined workflow for page building.
 
-Video tutorial on how to set up WooCommerce product filter by WBW
+To help you get started, there's a comprehensive video tutorial available that guides you through the process of setting up the WooCommerce Product Filter by WBW, ensuring you can make the most of its features to improve your online store's functionality and user experience.
 [youtube https://youtu.be/5uFBMl5OLW0] 
 
 Product filters are the key things that allow your customers to view the products in a particular way and easily find the necessary items.
@@ -145,6 +150,154 @@ If none of this advice helps you, contact us via [support form on our website](h
 You may help us translate the plugin into your language and get the PRO version of the plugin for free as soon as it is released. If this method seems to be too complicated, please send us a request and we will let you know as soon as the WBW Filter plugin will be available in your localization.
 
 == Changelog ==
+
+= 2.8.0 =
+ * Fixed conflict with custom-woocommerce-enhancements
+ * Fix open_one_by_one filter functionality
+ * Add space between taxonomy attributes
+ * Fix subcategory display
+ * Fix elementor pagination compatibility
+ * Add warning for invalid default ID in categories
+ * Fix add duplicate filter dialog
+ * Fix AWS Plugin Integration
+ * Fix if FiboSearch is active with Divi theme
+ * Fix custom attribute sorting
+ * Fixed conflict with jet-woo-builder
+ * Fixed compatibility with Flatsome+UX Builder
+ * Fix pagination reset with JetSmartFilters
+ * Fix early loader hiding
+
+= 2.7.8 =
+ * Added options Show/initialise filter immediately
+ * Fixed option Hide filter with single item for sliders
+ * Fixed order by woocommerce select-block
+ * Fixed option Display Only Children Of Current Category by simple ajax
+ * Minor issues fix 
+
+= 2.7.7 =
+ * Fixed compatibility with Advanced Woo Search
+ * Minor issues fix
+
+= 2.7.6 =
+ * Added compatibility with Theme Elford + Advanced Layout Builder Product Slider and Product Grid
+ * Added for shortcode ordering by title and rand
+ * Minor issues fix
+
+= 2.7.5 =
+ * Disabled option Move Sidebar To Top For Mobile for Neve Theme
+ * Added REST API notice
+ * Fixed compatibility with Elementor widget premium-woo-product
+ * Fixed option Check page category
+ * Fixed option Display a message about not found products
+ * Minor issues fix
+
+= 2.7.4 =
+ * Fixed Close Floating Popup & Clear button
+ * Minor issues fix
+
+= 2.7.3 =
+ * Added compatibility ElementorPro Loop Load More
+ * Added option Display preselected variation and fix compatibility with theme Betheme
+
+= 2.7.2 =
+ * Fixed preselect stockstatus
+ * Fixed checkboxes by goback action
+ * Code fix for GoBack
+ * Fixed store page for Dokan
+
+= 2.7.1 =
+ * Fixed count products by preselects
+ * Added option Unlimited colors/buttons filter
+ * Minor issues fix
+
+= 2.7.0 =
+ * Added compatibility for Woo Product Grid by Essential Addons
+ * Added limit for buttons filter
+ * Fixed compatibility with theme Sydney
+ * Added hook for item display name
+ * Added option in Search Number filter
+ 
+= 2.6.9 =
+ * Added compatibility with Beaver Builder block Posts
+ * Added compatibility for ACF-attributes type Number
+ * Fixed autoscrolling
+ * Added option Check page category for Button Filter
+ * Added limit for color filter
+ * Fixed autocomplete
+ * Added compatibility with theme TheGem
+
+= 2.6.8 =
+ * Added option Use max variations price for sorting
+ * Fixed default price block opening
+
+= 2.6.7 =
+ * Added compatibility with Woocommerce block Product Collection
+ * Added compatibility with AVADA infinitescroll
+ * Fixed date and popularity sorting
+ * Minor issues fix
+
+= 2.6.6 =
+ * Minor issues fix
+ * Fixed floating popup visibility
+ * Added option Display one variation price
+
+= 2.6.5 =
+ * Minor issues fix
+
+= 2.6.4 =
+ * Added Colors Filter for Tags
+ * Price filter load fix
+ * Minor issues fix
+
+= 2.6.3 =
+ * Fixed Avade infinite scroll for products pagination
+ * Added preselect for Price slider filter
+ * Fixed conflict with YITH Request a Quote for WooCommerce
+ * Fixed conflict with WP Statistics
+ * Added compatibility with WooCommerce Mix and Match Products
+ * Minor issues fix
+
+= 2.6.2 =
+ * Render fix
+ * Missing meta fix
+ 
+= 2.6.1 =
+ * Fixed fatal by deactivation and uninstall
+ * Added option Keep Min/Max Price By Reload
+ * Fixed refreshing of price slider
+ * Fixed ACF-labels for select-fields
+ * Minor issues fix
+
+= 2.6.0 =
+ * Fixed style conflict with Elementor
+ * Fixed conflict with WPML Multilingual CMS
+ * Added compatibility with Product Table for WooCommerce by CodeAstrology
+
+= 2.5.9 =
+ * Added compatibility with plugin WooCommerce Multilingual & Multicurrency
+ * Fixed selected parameters by filter synchronization
+ * Fixed redirect
+ * Minor issues fix
+
+= 2.5.8 =
+ * Added compatibility with pagination from Essential Addons Product Grid
+ * Fixed shortcode elementor-template
+ * Minor issues fix
+
+= 2.5.7 =
+ * Added compatibility with Woo-products from PowerPack Pro for Elementor
+ * Added dropdown to choose the number of products per page
+ * Added custom orderby
+ * Minor issues fix
+
+= 2.5.6 =
+ * Readme fix
+ * Minor issues fix
+
+= 2.5.5 =
+ * Added option Сollapse all when deleting by search for Category filter
+ * Fixed option Instock always show first
+ * Fixed compatibility with Fusion Builder
 
 = 2.5.4 =
  * Added compatibility with Divi Filter Loadmore

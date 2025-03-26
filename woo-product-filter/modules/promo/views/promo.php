@@ -18,7 +18,8 @@ class PromoViewWpf extends ViewWpf {
 		$this->assign('serverSettings', $this->getServerSettings());
 		$this->assign('news', $this->getNewsContent());
 		$this->assign('contactFields', $this->getModule()->getContactFormFields());
-		return parent::getContent('overviewTabContent');
+		//return parent::getContent('overviewTabContent');
+		return '';
 	}
 	public function getFaqList() {
 		return array();
@@ -42,7 +43,7 @@ class PromoViewWpf extends ViewWpf {
 		);
 	}
 	public function getNewsContent() {
-		$getData = wp_remote_get('https://woobewoo.com/news/main.html');
+		$getData = wp_remote_get('https://' . WPF_WP_PLUGIN_URL . '/news/main.html');
 		$content = '';
 		if ($getData 
 			&& is_array($getData) 
@@ -55,7 +56,7 @@ class PromoViewWpf extends ViewWpf {
 			$content = $getData['body'];
 		} else {
 			/* translators: %s: url */
-			$content = sprintf(esc_html__('There were some problems while trying to retrieve our news, but you can always check all list %s.', 'woo-product-filter'), '<a target="_blank" href="https://woobewoo.com/news">here</a>');
+			$content = sprintf(esc_html__('There were some problems while trying to retrieve our news, but you can always check all list %s.', 'woo-product-filter'), '<a target="_blank" href="' . esc_url('https://' . WPF_WP_PLUGIN_URL . '/news') . '">here</a>');
 		}
 		return $content;
 	}
@@ -79,7 +80,8 @@ class PromoViewWpf extends ViewWpf {
 	}
 	public function getLayeredStylePromo() {
 		$this->assign('promoLink', $this->getModule()->generateMainLink('utm_source=plugin&utm_medium=layered&utm_campaign=popup'));
-		return parent::getContent('layeredStylePromo');
+		//return parent::getContent('layeredStylePromo');
+		return '';
 	}
 	public function showWelcomePage() {
 		FrameWpf::_()->getModule('templates')->loadJqueryUi();
@@ -91,7 +93,7 @@ class PromoViewWpf extends ViewWpf {
 		$this->assign('skipTutorLink', $this->_makeWelcomeLink( $skipTutorLink ));
 		$this->assign('faqList', $this->getMostFaqList());
 		$this->assign('mainLink', $this->getModule()->getMainLink());
-		parent::display('welcomePage');
+		//parent::display('welcomePage');
 	}
 	private function _makeWelcomeLink( $link ) {
 		return UriWpf::_(array('baseUrl' => $link, 'from' => 'welcome-page', 'pl' => WPF_CODE));
@@ -99,13 +101,14 @@ class PromoViewWpf extends ViewWpf {
 	public function getTourHtml() {
 		$this->assign('contactFormLink', $this->getModule()->getContactLink());
 		$this->assign('finishSiteLink', $this->getModule()->generateMainLink('utm_source=plugin&utm_medium=final_step_b_step&utm_campaign=popup'));
-		return parent::getContent('adminTour');
+		//return parent::getContent('adminTour');
+		return '';
 	}
 	public function showFeaturedPluginsPage() {
 		FrameWpf::_()->getModule('templates')->loadBootstrapSimple();
 		FrameWpf::_()->addStyle('admin.featured-plugins', $this->getModule()->getModPath() . 'css/admin.featured-plugins.css');
 		FrameWpf::_()->getModule('templates')->loadGoogleFont('Montserrat');
-		$siteUrl = 'https://woobewoo.com/';
+		$siteUrl = 'https://' . WPF_WP_PLUGIN_URL . '/';
 		$pluginsUrl = $siteUrl . 'plugins/';
 		$uploadsUrl = $siteUrl . 'wp-content/uploads/';
 		$downloadsUrl = 'https://downloads.wordpress.org/plugin/';

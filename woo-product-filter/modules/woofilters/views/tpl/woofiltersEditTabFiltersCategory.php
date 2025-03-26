@@ -4,7 +4,7 @@
 <div class="row-settings-block">
 	<div class="settings-block-label settings-w100 col-xs-4 col-sm-3">
 		<?php esc_html_e('Show on frontend as', 'woo-product-filter'); ?>
-		<i class="fa fa-question woobewoo-tooltip no-tooltip" title="<?php echo esc_attr(__('Depending on whether you need one or several categories to be available at the same time, you may show your categories list as checkbox or dropdown.', 'woo-product-filter') . ' <a href="https://woobewoo.com/documentation/product-categories/" target="_blank">' . __('Learn More', 'woo-product-filter') . '</a>.'); ?>"></i>
+		<i class="fa fa-question woobewoo-tooltip no-tooltip" title="<?php echo esc_attr(__('Depending on whether you need one or several categories to be available at the same time, you may show your categories list as checkbox or dropdown.', 'woo-product-filter') . ' <a href="' . esc_url('https://' . WPF_WP_PLUGIN_URL . '/documentation/product-categories/') . '" class="wupsales-wc-hidden" target="_blank">' . __('Learn More', 'woo-product-filter') . '</a>'); ?>"></i>
 	</div>
 	<div class="settings-block-values settings-w100 col-xs-8 col-sm-9">
 		<div class="settings-value settings-w100">
@@ -36,7 +36,7 @@ else :
 			<i class="fa fa-question woobewoo-tooltip no-tooltip" title="<?php echo esc_attr__( 'Selects the default filter value by id', 'woo-product-filter' ); ?>"></i>
 		</div>
 		<div class="settings-value col-xs-8 col-sm-9">
-			<span class="wpfProLabel"><a href="<?php echo esc_url( $this->proLink . '?utm_source=selectdefaultid&utm_medium=&utm_campaign=pluginfilter' ); ?>" target="_blank"><?php esc_html_e( 'PRO Option', 'woo-product-filter' ); ?></a></span>
+			<span class="wpfProLabel"><a href="<?php echo esc_url( $this->proLink ); ?>" target="_blank"><?php esc_html_e( 'PRO Option', 'woo-product-filter' ); ?></a></span>
 		</div>
 	</div>
 	<div class="row-settings-block wpfTypeSwitchable" data-type="mul_dropdown">
@@ -46,7 +46,7 @@ else :
 			   title="<?php echo esc_attr__( 'Allow only one item from the list to be selected at a time', 'woo-product-filter' ); ?>"></i>
 		</div>
 		<div class="settings-value col-xs-8 col-sm-9">
-			<span class="wpfProLabel"><a href="<?php echo esc_url( $this->proLink . '?utm_source=&utm_medium=&utm_campaign=' ); ?>" target="_blank"><?php esc_html_e( 'PRO Option', 'woo-product-filter' ); ?></a></span>
+			<span class="wpfProLabel"><a href="<?php echo esc_url( $this->proLink ); ?>" target="_blank"><?php esc_html_e( 'PRO Option', 'woo-product-filter' ); ?></a></span>
 		</div>
 	</div>
 	<div class="row-settings-block wpfTypeSwitchable" data-type="mul_dropdown">
@@ -54,7 +54,7 @@ else :
 			<?php esc_html_e( 'Hide checkboxes', 'woo-product-filter' ); ?>
 		</div>
 		<div class="settings-value col-xs-8 col-sm-9">
-			<span class="wpfProLabel"><a href="<?php echo esc_url( $this->proLink . '?utm_source=&utm_medium=&utm_campaign=' ); ?>" target="_blank"><?php esc_html_e( 'PRO Option', 'woo-product-filter' ); ?></a></span>
+			<span class="wpfProLabel"><a href="<?php echo esc_url( $this->proLink ); ?>" target="_blank"><?php esc_html_e( 'PRO Option', 'woo-product-filter' ); ?></a></span>
 		</div>
 	</div>
 <?php
@@ -63,7 +63,7 @@ endif;
 <div class="row-settings-block wpfTypeSwitchable" data-not-type="buttons">
 	<div class="settings-block-label col-xs-4 col-sm-3">
 		<?php esc_html_e('Show hierarchical', 'woo-product-filter'); ?>
-		<i class="fa fa-question woobewoo-tooltip no-tooltip" title="<?php echo esc_attr(__('Show paternal and subsidiary categories (for checkbox list). If you display only some categories, make sure that the parent categories are selected.', 'woo-product-filter') . ' <a href="https://woobewoo.com/documentation/product-categories/" target="_blank">' . __('Learn More', 'woo-product-filter') . '</a>.'); ?>"></i>
+		<i class="fa fa-question woobewoo-tooltip no-tooltip" title="<?php echo esc_attr(__('Show paternal and subsidiary categories (for checkbox list). If you display only some categories, make sure that the parent categories are selected.', 'woo-product-filter') . ' <a href="' . esc_url('https://' . WPF_WP_PLUGIN_URL . '/documentation/product-categories/') . '" class="wupsales-wc-hidden" target="_blank">' . __('Learn More', 'woo-product-filter') . '</a>'); ?>"></i>
 	</div>
 	<div class="sub-block-values col-xs-8 col-sm-9">
 		<div class="settings-value settings-w100">
@@ -95,7 +95,7 @@ endif;
 					<?php esc_html_e( 'Collapsible', 'woo-product-filter' ); ?>
 					<i class="fa fa-question woobewoo-tooltip no-tooltip" title="<?php echo esc_attr__( 'If enabled, then show only parent elements, if there are children, they are minimized.', 'woo-product-filter' ); ?>"></i>
 				</div>
-				<span class="wpfProLabel"><a href="<?php echo esc_url( $this->proLink . '?utm_source=&utm_medium=&utm_campaign=' ); ?>" target="_blank"><?php esc_html_e( 'PRO Option', 'woo-product-filter' ); ?></a></span>
+				<span class="wpfProLabel"><a href="<?php echo esc_url( $this->proLink ); ?>" target="_blank"><?php esc_html_e( 'PRO Option', 'woo-product-filter' ); ?></a></span>
 			</div>
 			<div class="settings-value wpfTypeSwitchable" data-type="multi" data-parent-switch="f_show_hierarchical">
 				<div class="settings-value-label">
@@ -103,7 +103,7 @@ endif;
 					<i class="fa fa-question woobewoo-tooltip no-tooltip" title="<?php echo esc_attr__( 'If parent filter category was selected then extend selection to child categories.', 'woo-product-filter' ); ?>"></i>
 				</div>
 
-					<span class="wpfProLabel"><a href="<?php echo esc_url( $this->proLink . '?utm_source=&utm_medium=&utm_campaign=' ); ?>" target="_blank"><?php esc_html_e( 'PRO Option', 'woo-product-filter' ); ?></a></span>
+					<span class="wpfProLabel"><a href="<?php echo esc_url( $this->proLink ); ?>" target="_blank"><?php esc_html_e( 'PRO Option', 'woo-product-filter' ); ?></a></span>
 
 			</div>
 			<?php
@@ -112,7 +112,7 @@ endif;
 		<div class="settings-value wpfTypeSwitchable" data-not-type="buttons list dropdown" data-parent-switch="f_show_hierarchical">
 			<div class="settings-value-label">
 				<?php esc_html_e('Product selection hierarchically', 'woo-product-filter'); ?>
-				<i class="fa fa-question woobewoo-tooltip no-tooltip" title="<?php echo esc_attr(__('Restrict filtering result only to child categories or only to parent if both of them selected in the same time.', 'woo-product-filter') . ' <a href="https://woobewoo.com/documentation/product-categories/" target="_blank">' . __('Learn More', 'woo-product-filter') . '</a>.'); ?>"></i>
+				<i class="fa fa-question woobewoo-tooltip no-tooltip" title="<?php echo esc_attr(__('Restrict filtering result only to child categories or only to parent if both of them selected in the same time.', 'woo-product-filter') . ' <a href="' . esc_url('https://' . WPF_WP_PLUGIN_URL . '/documentation/product-categories/') . '" class="wupsales-wc-hidden" target="_blank">' . __('Learn More', 'woo-product-filter') . '</a>'); ?>"></i>
 			</div>
 			<?php
 				HtmlWpf::selectbox('f_multi_logic_hierarchical', array(
@@ -140,7 +140,7 @@ else :
 		</div>
 		<div class="settings-block-values settings-w100 col-xs-8 col-sm-9">
 			<span class="settings-value wpfProLabel">
-				<a href="<?php echo esc_url( $this->proLink . '?utm_source=checkpagecategory&utm_medium=filterscategory&utm_campaign=pluginfilter' ); ?>" target="_blank">
+				<a href="<?php echo esc_url( $this->proLink ); ?>" target="_blank">
 					<?php esc_html_e( 'PRO Option', 'woo-product-filter' ); ?>
 				</a>
 			</span>
@@ -153,7 +153,7 @@ else :
 		</div>
 		<div class="settings-block-values settings-w100 col-xs-8 col-sm-9">
 			<span class="settings-value wpfProLabel">
-				<a href="<?php echo esc_url( $this->proLink . '?utm_source=hidepagecategory&utm_medium=filterscategory&utm_campaign=pluginfilter' ); ?>" target="_blank">
+				<a href="<?php echo esc_url( $this->proLink ); ?>" target="_blank">
 					<?php esc_html_e( 'PRO Option', 'woo-product-filter' ); ?>
 				</a>
 			</span>
@@ -167,7 +167,7 @@ endif;
 	<div class="settings-value settings-w100">
 		<div class="settings-block-label col-xs-4 col-sm-3">
 			<?php esc_html_e('Filter with children', 'woo-product-filter'); ?>
-			<i class="fa fa-question woobewoo-tooltip no-tooltip" title="<?php echo esc_attr(__('If parent filter category was selected then extend filter result to child categories.', 'woo-product-filter') . ' <a href="https://woobewoo.com/documentation/product-categories/" target="_blank">' . __('Learn More', 'woo-product-filter') . '</a>.'); ?>"></i>
+			<i class="fa fa-question woobewoo-tooltip no-tooltip" title="<?php echo esc_attr(__('If parent filter category was selected then extend filter result to child categories.', 'woo-product-filter') . ' <a href="' . esc_url('https://' . WPF_WP_PLUGIN_URL . '/documentation/product-categories/') . '" class="wupsales-wc-hidden" target="_blank">' . __('Learn More', 'woo-product-filter') . '</a>'); ?>"></i>
 		</div>
 		<div class="settings-block-values col-xs-8 col-sm-9">
 			<?php HtmlWpf::checkboxToggle('f_extend_parent_filtering', array('checked' => 1)); ?>
@@ -186,7 +186,7 @@ else :
 			<i class="fa fa-question woobewoo-tooltip no-tooltip" title="<?php echo esc_attr__( 'Buttons Settings', 'woo-product-filter' ); ?>"></i>
 		</div>
 		<div class="settings-block-values col-xs-8 col-sm-9">
-			<span class="settings-value wpfProLabel"><a href="<?php echo esc_url( $this->proLink . '?utm_source=&utm_medium=&utm_campaign=' ); ?>" target="_blank"><?php esc_html_e( 'PRO Option', 'woo-product-filter' ); ?></a></span>
+			<span class="settings-value wpfProLabel"><a href="<?php echo esc_url( $this->proLink ); ?>" target="_blank"><?php esc_html_e( 'PRO Option', 'woo-product-filter' ); ?></a></span>
 		</div>
 	</div>
 	<div class="row-settings-block wpfTypeSwitchable" data-type="multi mul_dropdown buttons text">
@@ -195,7 +195,7 @@ else :
 			<i class="fa fa-question woobewoo-tooltip no-tooltip" title="<?php echo esc_attr__( 'Filter products by different categories using and/or logic.', 'woo-product-filter' ); ?>"></i>
 		</div>
 		<div class="settings-block-values col-xs-8 col-sm-9">
-			<span class="settings-value wpfProLabel"><a href="<?php echo esc_url( $this->proLink . '?utm_source=productselection&utm_medium=filterscategory&utm_campaign=pluginfilter' ); ?>" target="_blank"><?php esc_html_e( 'PRO Option', 'woo-product-filter' ); ?></a></span>
+			<span class="settings-value wpfProLabel"><a href="<?php echo esc_url( $this->proLink ); ?>" target="_blank"><?php esc_html_e( 'PRO Option', 'woo-product-filter' ); ?></a></span>
 		</div>
 	</div>
 
@@ -205,7 +205,7 @@ else :
 			<i class="fa fa-question woobewoo-tooltip no-tooltip" title="<?php echo esc_attr__( 'Show element image. Not working with dropdown.', 'woo-product-filter' ); ?>"></i>
 		</div>
 		<div class="settings-block-values col-xs-8 col-sm-9">
-			<span class="settings-value wpfProLabel"><a href="<?php echo esc_url( $this->proLink . '?utm_source=showimages&utm_medium=filterscategory&utm_campaign=pluginfilter' ); ?>" target="_blank"><?php esc_html_e( 'PRO Option', 'woo-product-filter' ); ?></a></span>
+			<span class="settings-value wpfProLabel"><a href="<?php echo esc_url( $this->proLink ); ?>" target="_blank"><?php esc_html_e( 'PRO Option', 'woo-product-filter' ); ?></a></span>
 		</div>
 	</div>
 	<div class="row-settings-block wpfTypeSwitchable" data-type="list">
@@ -214,7 +214,7 @@ else :
 			<i class="fa fa-question woobewoo-tooltip no-tooltip" title="<?php echo esc_attr__( 'Show Alphabetical index. Works only for parent elements.', 'woo-product-filter' ); ?>"></i>
 		</div>
 		<div class="settings-block-values col-xs-8 col-sm-9">
-			<span class="settings-value wpfProLabel"><a href="<?php echo esc_url( $this->proLink . '?utm_source=&utm_medium=&utm_campaign=' ); ?>" target="_blank"><?php esc_html_e( 'PRO Option', 'woo-product-filter' ); ?></a></span>
+			<span class="settings-value wpfProLabel"><a href="<?php echo esc_url( $this->proLink ); ?>" target="_blank"><?php esc_html_e( 'PRO Option', 'woo-product-filter' ); ?></a></span>
 		</div>
 	</div>
 	<div class="row-settings-block wpfTypeSwitchable" data-type="mul_dropdown">
@@ -223,7 +223,7 @@ else :
 			<i class="fa fa-question woobewoo-tooltip no-tooltip" title="<?php echo esc_attr__( 'Show search field in multiple dropdown box', 'woo-product-filter' ); ?>"></i>
 		</div>
 		<div class="settings-block-values col-xs-8 col-sm-9">
-			<span class="settings-value wpfProLabel"><a href="<?php echo esc_url( $this->proLink . '?utm_source=&utm_medium=&utm_campaign=' ); ?>" target="_blank"><?php esc_html_e( 'PRO Option', 'woo-product-filter' ); ?></a></span>
+			<span class="settings-value wpfProLabel"><a href="<?php echo esc_url( $this->proLink ); ?>" target="_blank"><?php esc_html_e( 'PRO Option', 'woo-product-filter' ); ?></a></span>
 		</div>
 	</div>
 <?php
@@ -233,7 +233,7 @@ ViewWpf::display('woofiltersEditTabCustomTags');
 <div class="row-settings-block wpfTypeSwitchable" data-type="dropdown mul_dropdown">
 	<div class="settings-block-label settings-w100 col-xs-4 col-sm-3">
 		<?php esc_html_e('Dropdown label', 'woo-product-filter'); ?>
-		<i class="fa fa-question woobewoo-tooltip no-tooltip" title="<?php echo esc_attr(__('Dropdown first option text.', 'woo-product-filter') . ' <a href="https://woobewoo.com/documentation/product-categories/" target="_blank">' . __('Learn More', 'woo-product-filter') . '</a>.'); ?>"></i>
+		<i class="fa fa-question woobewoo-tooltip no-tooltip" title="<?php echo esc_attr(__('Dropdown first option text.', 'woo-product-filter') . ' <a href="' . esc_url('https://' . WPF_WP_PLUGIN_URL . '/documentation/product-categories/') . '" class="wupsales-wc-hidden" target="_blank">' . __('Learn More', 'woo-product-filter') . '</a>'); ?>"></i>
 	</div>
 	<div class="settings-block-values settings-w100 col-xs-8 col-sm-9">
 		<div class="settings-value settings-w100">
@@ -249,7 +249,7 @@ ViewWpf::display('woofiltersEditTabCustomTags');
 <div class="row-settings-block">
 	<div class="settings-block-label settings-w100 col-xs-4 col-sm-3">
 		<?php esc_html_e('Sort by', 'woo-product-filter'); ?>
-		<i class="fa fa-question woobewoo-tooltip no-tooltip" title="<?php echo esc_attr(__('Set categories sorting by ascendance or descendance.', 'woo-product-filter') . ' <a href="https://woobewoo.com/documentation/product-categories/" target="_blank">' . __('Learn More', 'woo-product-filter') . '</a>.'); ?>"></i>
+		<i class="fa fa-question woobewoo-tooltip no-tooltip" title="<?php echo esc_attr(__('Set categories sorting by ascendance or descendance.', 'woo-product-filter') . ' <a href="' . esc_url('https://' . WPF_WP_PLUGIN_URL . '/documentation/product-categories/') . '" class="wupsales-wc-hidden" target="_blank">' . __('Learn More', 'woo-product-filter') . '</a>'); ?>"></i>
 	</div>
 	<div class="settings-block-values settings-w100 col-xs-8 col-sm-9">
 		<div class="settings-value settings-w100">
@@ -270,7 +270,7 @@ ViewWpf::display('woofiltersEditTabCustomTags');
 					<?php esc_html_e( 'Sort as numbers', 'woo-product-filter' ); ?>
 					<i class="fa fa-question woobewoo-tooltip no-tooltip" title="<?php echo esc_attr__( 'Turn this on if you want to sort the values as numbers.', 'woo-product-filter' ); ?>"></i>
 				</div>
-				<span class="wpfProLabel"><a href="<?php echo esc_url( $this->proLink . '?utm_source=sortasnumbers&utm_medium=filterscategory&utm_campaign=pluginfilter' ); ?>" target="_blank"><?php esc_html_e( 'PRO Option', 'woo-product-filter' ); ?></a></span>
+				<span class="wpfProLabel"><a href="<?php echo esc_url( $this->proLink ); ?>" target="_blank"><?php esc_html_e( 'PRO Option', 'woo-product-filter' ); ?></a></span>
 
 			</div>
 		<?php endif; ?>
@@ -279,7 +279,7 @@ ViewWpf::display('woofiltersEditTabCustomTags');
 <div class="row-settings-block">
 	<div class="settings-block-label col-xs-4 col-sm-3">
 		<?php esc_html_e('Order by custom', 'woo-product-filter'); ?>
-		<i class="fa fa-question woobewoo-tooltip no-tooltip" title="<?php echo esc_attr(__('Categories are displayed according to the order of their selection in the input fields.', 'woo-product-filter') . ' <a href="https://woobewoo.com/documentation/product-categories/" target="_blank">' . __('Learn More', 'woo-product-filter') . '</a>.'); ?>"></i>
+		<i class="fa fa-question woobewoo-tooltip no-tooltip" title="<?php echo esc_attr(__('Categories are displayed according to the order of their selection in the input fields.', 'woo-product-filter') . ' <a href="' . esc_url('https://' . WPF_WP_PLUGIN_URL . '/documentation/product-categories/') . '" class="wupsales-wc-hidden" target="_blank">' . __('Learn More', 'woo-product-filter') . '</a>'); ?>"></i>
 	</div>
 	<div class="settings-block-values col-xs-8 col-sm-9">
 		<div class="settings-value settings-w100">
@@ -290,7 +290,7 @@ ViewWpf::display('woofiltersEditTabCustomTags');
 <div class="row-settings-block">
 	<div class="settings-block-label col-xs-4 col-sm-3">
 		<?php esc_html_e('Show count', 'woo-product-filter'); ?>
-		<i class="fa fa-question woobewoo-tooltip no-tooltip" title="<?php echo esc_attr(__('Show count display the number of products that have the appropriate parameter (attribute, category, tag).', 'woo-product-filter') . ' <a href="https://woobewoo.com/documentation/show-count-option/" target="_blank">' . __('Learn More', 'woo-product-filter') . '</a>.'); ?>"></i>
+		<i class="fa fa-question woobewoo-tooltip no-tooltip" title="<?php echo esc_attr(__('Show count display the number of products that have the appropriate parameter (attribute, category, tag).', 'woo-product-filter') . ' <a href="' . esc_url('https://' . WPF_WP_PLUGIN_URL . '/documentation/show-count-option/') . '" class="wupsales-wc-hidden" target="_blank">' . __('Learn More', 'woo-product-filter') . '</a>'); ?>"></i>
 	</div>
 	<div class="settings-block-values col-xs-8 col-sm-9">
 		<div class="settings-value settings-w100">
@@ -299,7 +299,7 @@ ViewWpf::display('woofiltersEditTabCustomTags');
 		<div class="settings-value settings-w100" data-parent="f_show_count">
 			<div class="settings-value-label">
 				<?php esc_html_e('Count parents with children', 'woo-product-filter'); ?>
-				<i class="fa fa-question woobewoo-tooltip no-tooltip" title="<?php echo esc_attr(__('Count for parent category also her children count. <strong>Warning!</strong> If filtering will slow do uncheck this option.', 'woo-product-filter') . ' <a href="https://woobewoo.com/documentation/show-count-option/" target="_blank">' . __('Learn More', 'woo-product-filter') . '</a>.'); ?>"></i>
+				<i class="fa fa-question woobewoo-tooltip no-tooltip" title="<?php echo esc_attr(__('Count for parent category also her children count. <strong>Warning!</strong> If filtering will slow do uncheck this option.', 'woo-product-filter') . ' <a href="' . esc_url('https://' . WPF_WP_PLUGIN_URL . '/documentation/show-count-option/') . '" class="wupsales-wc-hidden" target="_blank">' . __('Learn More', 'woo-product-filter') . '</a>'); ?>"></i>
 			</div>
 			<?php HtmlWpf::checkboxToggle('f_show_count_parent_with_children', array()); ?>
 		</div>
@@ -308,7 +308,7 @@ ViewWpf::display('woofiltersEditTabCustomTags');
 <div class="row-settings-block">
 	<div class="settings-block-label col-xs-4 col-sm-3">
 		<?php esc_html_e('Hide categories without products', 'woo-product-filter'); ?>
-		<i class="fa fa-question woobewoo-tooltip no-tooltip" title="<?php echo esc_attr(__('Hide categories without products.', 'woo-product-filter') . ' <a href="https://woobewoo.com/documentation/product-categories/" target="_blank">' . __('Learn More', 'woo-product-filter') . '</a>.'); ?>"></i>
+		<i class="fa fa-question woobewoo-tooltip no-tooltip" title="<?php echo esc_attr(__('Hide categories without products.', 'woo-product-filter') . ' <a href="' . esc_url('https://' . WPF_WP_PLUGIN_URL . '/documentation/product-categories/') . '" class="wupsales-wc-hidden" target="_blank">' . __('Learn More', 'woo-product-filter') . '</a>'); ?>"></i>
 	</div>
 	<div class="settings-block-values col-xs-8 col-sm-9">
 		<div class="settings-value settings-w100">
@@ -326,7 +326,7 @@ ViewWpf::display('woofiltersEditTabCustomTags');
 <div class="row-settings-block">
 	<div class="settings-block-label settings-w100 col-xs-4 col-sm-3">
 		<?php esc_html_e('Product categories', 'woo-product-filter'); ?>
-		<i class="fa fa-question woobewoo-tooltip no-tooltip" title="<?php echo esc_attr(__('Select product categories to be displayed on site from the list. Press "Ctrl" + "a" for checking all categories.', 'woo-product-filter') . ' <a href="https://woobewoo.com/documentation/product-categories/" target="_blank">' . __('Learn More', 'woo-product-filter') . '</a>.'); ?>"></i>
+		<i class="fa fa-question woobewoo-tooltip no-tooltip" title="<?php echo esc_attr(__('Select product categories to be displayed on site from the list. Press "Ctrl" + "a" for checking all categories.', 'woo-product-filter') . ' <a href="' . esc_url('https://' . WPF_WP_PLUGIN_URL . '/documentation/product-categories/') . '" class="wupsales-wc-hidden" target="_blank">' . __('Learn More', 'woo-product-filter') . '</a>'); ?>"></i>
 	</div>
 	<div class="settings-block-values settings-w100 col-xs-8 col-sm-9">
 		<div class="settings-value woobewoo-width-full wpf-multi-select">
@@ -348,7 +348,7 @@ ViewWpf::display('woofiltersEditTabCustomTags');
 <div class="row-settings-block">
 	<div class="settings-block-label col-xs-4 col-sm-3">
 		<?php esc_html_e('Make selected categories as default', 'woo-product-filter'); ?>
-		<i class="fa fa-question woobewoo-tooltip no-tooltip" title="<?php echo esc_attr(__('Selected categories will be marked as default and hidden on frontend.', 'woo-product-filter') . ' <a href="https://woobewoo.com/documentation/product-categories/" target="_blank">' . __('Learn More', 'woo-product-filter') . '</a>.'); ?>"></i>
+		<i class="fa fa-question woobewoo-tooltip no-tooltip" title="<?php echo esc_attr(__('Selected categories will be marked as default and hidden on frontend.', 'woo-product-filter') . ' <a href="' . esc_url('https://' . WPF_WP_PLUGIN_URL . '/documentation/product-categories/') . '" class="wupsales-wc-hidden" target="_blank">' . __('Learn More', 'woo-product-filter') . '</a>'); ?>"></i>
 	</div>
 	<div class="settings-block-values col-xs-8 col-sm-9">
 		<div class="settings-value settings-w100">
@@ -359,7 +359,7 @@ ViewWpf::display('woofiltersEditTabCustomTags');
 <div class="row-settings-block">
 	<div class="settings-block-label col-xs-4 col-sm-3">
 		<?php esc_html_e('Restrict filtering results only to selected categories', 'woo-product-filter'); ?>
-		<i class="fa fa-question woobewoo-tooltip no-tooltip" title="<?php echo esc_attr(__('When the filter is clear, he will be restrict filtered results only by selected items. Be careful when using with other filters in block!.', 'woo-product-filter') . ' <a href="https://woobewoo.com/documentation/product-categories/" target="_blank">' . __('Learn More', 'woo-product-filter') . '</a>.'); ?>"></i>
+		<i class="fa fa-question woobewoo-tooltip no-tooltip" title="<?php echo esc_attr(__('When the filter is clear, he will be restrict filtered results only by selected items. Be careful when using with other filters in block!.', 'woo-product-filter') . ' <a href="' . esc_url('https://' . WPF_WP_PLUGIN_URL . '/documentation/product-categories/') . '" class="wupsales-wc-hidden" target="_blank">' . __('Learn More', 'woo-product-filter') . '</a>'); ?>"></i>
 	</div>
 	<div class="settings-block-values col-xs-8 col-sm-9">
 		<div class="settings-value settings-w100">
@@ -370,7 +370,7 @@ ViewWpf::display('woofiltersEditTabCustomTags');
 <div class="row-settings-block">
 	<div class="settings-block-label settings-w100 col-xs-4 col-sm-3">
 		<?php esc_html_e('Exclude terms ids', 'woo-product-filter'); ?>
-		<i class="fa fa-question woobewoo-tooltip no-tooltip" title="<?php echo esc_attr(__('Exclude category terms from filter by ids. Example input: 1,2,3.', 'woo-product-filter') . ' <a href="https://woobewoo.com/documentation/product-categories/" target="_blank">' . __('Learn More', 'woo-product-filter') . '</a>.'); ?>"></i>
+		<i class="fa fa-question woobewoo-tooltip no-tooltip" title="<?php echo esc_attr(__('Exclude category terms from filter by ids. Example input: 1,2,3.', 'woo-product-filter') . ' <a href="' . esc_url('https://' . WPF_WP_PLUGIN_URL . '/documentation/product-categories/') . '" class="wupsales-wc-hidden" target="_blank">' . __('Learn More', 'woo-product-filter') . '</a>'); ?>"></i>
 	</div>
 	<div class="settings-block-values settings-w100 col-xs-8 col-sm-9">
 		<div class="settings-value settings-w100">
@@ -381,7 +381,7 @@ ViewWpf::display('woofiltersEditTabCustomTags');
 <div class="row-settings-block wpfTypeSwitchable" data-type="list">
 	<div class="settings-block-label col-xs-4 col-sm-3">
 		<?php esc_html_e('Show search', 'woo-product-filter'); ?>
-		<i class="fa fa-question woobewoo-tooltip no-tooltip" title="<?php echo esc_attr(__('Show search display the bar for searching by category name in the filter.', 'woo-product-filter') . ' <a href="https://woobewoo.com/documentation/product-categories/" target="_blank">' . __('Learn More', 'woo-product-filter') . '</a>.'); ?>"></i>
+		<i class="fa fa-question woobewoo-tooltip no-tooltip" title="<?php echo esc_attr(__('Show search display the bar for searching by category name in the filter.', 'woo-product-filter') . ' <a href="' . esc_url('https://' . WPF_WP_PLUGIN_URL . '/documentation/product-categories/') . '" class="wupsales-wc-hidden" target="_blank">' . __('Learn More', 'woo-product-filter') . '</a>'); ?>"></i>
 	</div>
 	<div class="settings-block-values col-xs-8 col-sm-9">
 		<div class="settings-value settings-w100">
@@ -399,6 +399,12 @@ ViewWpf::display('woofiltersEditTabCustomTags');
 			</div>
 			<?php HtmlWpf::checkboxToggle('f_unfolding_by_search', array()); ?>
 		</div>
+		<div class="settings-value settings-w100" data-parent="f_show_search_input">
+			<div class="settings-value-label" >
+				<?php esc_html_e('Сollapse all when deleting', 'woo-product-filter'); ?>
+			</div>
+			<?php HtmlWpf::checkboxToggle('f_collapse_by_delete', array()); ?>
+		</div>
 	</div>
 </div>
 <div class="row-settings-block">
@@ -415,7 +421,7 @@ ViewWpf::display('woofiltersEditTabCustomTags');
 <div class="row-settings-block">
 	<div class="settings-block-label col-xs-4 col-sm-3">
 		<?php esc_html_e('Always display all categories', 'woo-product-filter'); ?>
-		<i class="fa fa-question woobewoo-tooltip no-tooltip" title="<?php echo esc_attr(__('If checked, the entire list of categories will always be visible, otherwise only available for filtered items.', 'woo-product-filter') . ' <a href="https://woobewoo.com/documentation/product-categories/" target="_blank">' . __('Learn More', 'woo-product-filter') . '</a>.'); ?>"></i>
+		<i class="fa fa-question woobewoo-tooltip no-tooltip" title="<?php echo esc_attr(__('If checked, the entire list of categories will always be visible, otherwise only available for filtered items.', 'woo-product-filter') . ' <a href="' . esc_url('https://' . WPF_WP_PLUGIN_URL . '/documentation/product-categories/') . '" class="wupsales-wc-hidden" target="_blank">' . __('Learn More', 'woo-product-filter') . '</a>'); ?>"></i>
 	</div>
 	<div class="settings-block-values col-xs-8 col-sm-9">
 		<div class="settings-value settings-w100">
@@ -426,7 +432,7 @@ ViewWpf::display('woofiltersEditTabCustomTags');
 <div class="row-settings-block wpfTypeSwitchable" data-not-type="dropdown mul_dropdown">
 	<div class="settings-block-label settings-w100 col-xs-4 col-sm-3">
 		<?php esc_html_e('Layout', 'woo-product-filter'); ?>
-		<i class="fa fa-question woobewoo-tooltip no-tooltip" title="<?php echo esc_attr(__('Select a vertical or horizontal layout and set the count of columns.', 'woo-product-filter') . ' <a href="https://woobewoo.com/documentation/product-categories/" target="_blank">' . __('Learn More', 'woo-product-filter') . '</a>.'); ?>"></i>
+		<i class="fa fa-question woobewoo-tooltip no-tooltip" title="<?php echo esc_attr(__('Select a vertical or horizontal layout and set the count of columns.', 'woo-product-filter') . ' <a href="' . esc_url('https://' . WPF_WP_PLUGIN_URL . '/documentation/product-categories/') . '" class="wupsales-wc-hidden" target="_blank">' . __('Learn More', 'woo-product-filter') . '</a>'); ?>"></i>
 	</div>
 	<div class="settings-block-values settings-w100 col-xs-8 col-sm-9">
 		<div class="settings-value settings-w100">
@@ -448,7 +454,7 @@ ViewWpf::display('woofiltersEditTabCustomTags');
 <div class="row-settings-block wpfTypeSwitchable" data-not-type="dropdown mul_dropdown">
 	<div class="settings-block-label settings-w100 col-xs-4 col-sm-3">
 		<?php esc_html_e('Maximum height in frontend', 'woo-product-filter'); ?>
-		<i class="fa fa-question woobewoo-tooltip no-tooltip" title="<?php echo esc_attr(__('Set maximum displayed height in frontend.', 'woo-product-filter') . ' <a href="https://woobewoo.com/documentation/product-categories/" target="_blank">' . __('Learn More', 'woo-product-filter') . '</a>.'); ?>"></i>
+		<i class="fa fa-question woobewoo-tooltip no-tooltip" title="<?php echo esc_attr(__('Set maximum displayed height in frontend.', 'woo-product-filter') . ' <a href="' . esc_url('https://' . WPF_WP_PLUGIN_URL . '/documentation/product-categories/') . '" class="wupsales-wc-hidden" target="_blank">' . __('Learn More', 'woo-product-filter') . '</a>'); ?>"></i>
 	</div>
 	<div class="settings-block-values settings-w100 col-xs-8 col-sm-9">
 		<div class="settings-value settings-w100">
@@ -468,7 +474,7 @@ else :
 			<i class="fa fa-question woobewoo-tooltip no-tooltip" title="<?php echo esc_attr__( 'The maximum number of terms to be shown before Show more button', 'woo-product-filter' ); ?>"></i>
 		</div>
 		<div class="settings-block-values col-xs-8 col-sm-9">
-			<span class="settings-value wpfProLabel"><a href="<?php echo esc_url( $this->proLink . '?utm_source=maxtermsshow&utm_medium=filterscategory&utm_campaign=pluginfilter' ); ?>" target="_blank"><?php esc_html_e( 'PRO Option', 'woo-product-filter' ); ?></a></span>
+			<span class="settings-value wpfProLabel"><a href="<?php echo esc_url( $this->proLink ); ?>" target="_blank"><?php esc_html_e( 'PRO Option', 'woo-product-filter' ); ?></a></span>
 		</div>
 	</div>
 	<div class="row-settings-block wpfTypeSwitchable" data-not-type="dropdown mul_dropdown">
@@ -477,7 +483,7 @@ else :
 			<i class="fa fa-question woobewoo-tooltip no-tooltip" title="<?php echo esc_attr__( 'When this option is activated, this section of categories loses the ability to filter products and works as a navigation menu', 'woo-product-filter' ); ?>"></i>
 		</div>
 		<div class="settings-block-values col-xs-8 col-sm-9">
-			<span class="settings-value wpfProLabel"><a href="<?php echo esc_url( $this->proLink . '?utm_source=maxtermsshow&utm_medium=filterscategory&utm_campaign=pluginfilter' ); ?>" target="_blank"><?php esc_html_e( 'PRO Option', 'woo-product-filter' ); ?></a></span>
+			<span class="settings-value wpfProLabel"><a href="<?php echo esc_url( $this->proLink ); ?>" target="_blank"><?php esc_html_e( 'PRO Option', 'woo-product-filter' ); ?></a></span>
 		</div>
 	</div>
 <?php

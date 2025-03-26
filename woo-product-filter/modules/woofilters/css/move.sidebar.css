@@ -29,7 +29,7 @@
 	.woocommerce-page .has-one-sidebar > section,
 	.woocommerce-page .theme-content,
 	.woocommerce-page #left-area,
-	.woocommerce-page #content,
+	.woocommerce-page #content:not(.neve-main),
 	.woocommerce-page .sections_group,
 	.woocommerce-page .content-box,
 	#main-sidebar-container #main,

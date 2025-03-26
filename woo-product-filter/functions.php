@@ -41,15 +41,7 @@ if (!function_exists('getRandNameWpf')) {
 		return $res;
 	}
 }
-if (!function_exists('importWpf')) {
-	function importWpf( $path ) {
-		if (file_exists($path)) {
-			require($path);
-			return true;
-		}
-		return false;
-	}
-}
+
 if (!function_exists('setDefaultParamsWpf')) {
 	function setDefaultParamsWpf( $params, $default ) {
 		foreach ($default as $k => $v) {
@@ -61,14 +53,16 @@ if (!function_exists('setDefaultParamsWpf')) {
 if (!function_exists('importClassWpf')) {
 	function importClassWpf( $class, $path = '' ) {
 		if (!class_exists($class)) {
-			if (!$path) {
-				$classFile = lcfirst($class);
-				if (strpos(strtolower($classFile), WPF_CODE) !== false) {
-					$classFile = preg_replace('/' . WPF_CODE . '/i', '', $classFile);
-				}
-				$path = WPF_CLASSES_DIR . $classFile . '.php';
+			$classFile = lcfirst($class);
+			if (strpos(strtolower($classFile), WPF_CODE) !== false) {
+				$classFile = preg_replace('/' . WPF_CODE . '/i', '', $classFile);
 			}
-			return importWpf($path);
+			$path = WPF_CLASSES_DIR . $classFile . '.php';
+			if (file_exists($path)) {
+				require WPF_CLASSES_DIR . $classFile . '.php';
+				return true;
+			}
+			//return importWpf($path);
 		}
 		return false;
 	}
@@ -304,10 +298,12 @@ if (!function_exists('woofilterInstallBaseMsg')) {
 			} else if (FrameWpf::_()->getModule('options')->getModel()->get('start_indexing') == 2) {
 				$plugName = __('Product Filter by WBW', 'woo-product-filter');
 				$plugWpUrl = 'https://wordpress.org/plugins/woo-product-filter/';
-				/* translators: %s: plugin name */
 				echo '<div class="notice error is-dismissible"><p><strong>';
+				/* translators: %s: plugin name */
 				echo sprintf(esc_html__('The plugin %s started indexing the product database metadata. If you have a large database, this may take a while, but in the future it will significantly increase your filtering speed.', 'woo-product-filter'), esc_html($plugName)) .
 					'</strong></p></div>';
+			} else {
+				FrameWpf::_()->getModule('overview')->getView()->showRestApiInfo();
 			}
 		}
 	}
