@@ -4,7 +4,7 @@ Donate link: https://woobewoo.com/product/woocommerce-filter/
 Tags: product filter, WooCommerce product filter, shop filter, e-commerce filter, WooCommerce filter
 Requires at least: 3.4.0
 Tested up to: 6.7
-Stable tag: 2.8.0
+Stable tag: 2.8.3
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
  
@@ -151,8 +151,23 @@ You may help us translate the plugin into your language and get the PRO version 
 
 == Changelog ==
 
+= 2.8.3 =
+ * Update integration with Dynamic Content for Elementor
+ * Minor issues fix
+
+= 2.8.2 =
+ * Fixed display subcategories
+ * Minor issues fix 
+
+= 2.8.1 =
+ * Fix elementor pagination
+ * Fixed link View details
+ * Added compatibility with WooCommerce B2B and Multi Currency for WooCommerce plugins
+ * Fixed Clone filter option
+ * Hierarchical open_one_by_one added
+
 = 2.8.0 =
- * Fixed conflict with custom-woocommerce-enhancements
+ * Fixed conflict with custom-woocommerce-enhancements 
  * Fix open_one_by_one filter functionality
  * Add space between taxonomy attributes
  * Fix subcategory display
