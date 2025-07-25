@@ -1,5 +1,16 @@
 <?php
-	$urlPath = 'https://woobewoo.com/product/woocommerce-filter';
+/**
+ * Product Filter by WBW - Options Pro Tab Content
+ *
+ * @version 2.8.7
+ *
+ * @author  woobewoo
+ */
+
+defined( 'ABSPATH' ) || exit;
+
+$urlPath = 'https://woobewoo.com/product/woocommerce-filter';
+
 ?>
 <section class="wpf-gopro wpf-gopro-wrapper">
 	<div class="wpf-gopro-header-title">
@@ -20,7 +31,7 @@
 					<div class="wpf-gopro-title">
 						<?php esc_html_e('Unlimited', 'woo-product-filter'); ?>
 					</div>
-					<div class="wpf-gopro-price">$199.00</div>
+					<div class="wpf-gopro-price">$149.00</div>
 					<div class="wpf-gopro-desc">
 						<?php esc_html_e('Unlimited site', 'woo-product-filter'); ?>
 					</div>
@@ -45,7 +56,7 @@
 					<div class="wpf-gopro-title">
 						<?php esc_html_e('Up to Five Sites', 'woo-product-filter'); ?>
 					</div>
-					<div class="wpf-gopro-price">$99.00</div>
+					<div class="wpf-gopro-price">$89.00</div>
 					<div class="wpf-gopro-desc">
 						<?php esc_html_e('Five site', 'woo-product-filter'); ?>
 					</div>
@@ -70,7 +81,7 @@
 					<div class="wpf-gopro-title">
 						<?php esc_html_e('One Site', 'woo-product-filter'); ?>
 					</div>
-					<div class="wpf-gopro-price">$49.00</div>
+					<div class="wpf-gopro-price">$59.00</div>
 					<div class="wpf-gopro-desc">
 						<?php esc_html_e('Single site', 'woo-product-filter'); ?>
 					</div>
@@ -97,7 +108,7 @@
 					<div class="wpf-gopro-title">
 						<?php esc_html_e('Unlimited', 'woo-product-filter'); ?>
 					</div>
-					<div class="wpf-gopro-price">$299.00</div>
+					<div class="wpf-gopro-price">$399.00</div>
 					<div class="wpf-gopro-desc">
 						<?php esc_html_e('Unlimited site', 'woo-product-filter'); ?>
 					</div>
@@ -121,7 +132,7 @@
 					<div class="wpf-gopro-title">
 						<?php esc_html_e('Up to Five Sites', 'woo-product-filter'); ?>
 					</div>
-					<div class="wpf-gopro-price">$149.00</div>
+					<div class="wpf-gopro-price">$249.00</div>
 					<div class="wpf-gopro-desc">
 						<?php esc_html_e('Five site', 'woo-product-filter'); ?>
 					</div>
@@ -145,7 +156,7 @@
 					<div class="wpf-gopro-title">
 						<?php esc_html_e('One Site', 'woo-product-filter'); ?>
 					</div>
-					<div class="wpf-gopro-price">$89.00</div>
+					<div class="wpf-gopro-price">$199.00</div>
 					<div class="wpf-gopro-desc">
 						<?php esc_html_e('Single site', 'woo-product-filter'); ?>
 					</div>
@@ -167,7 +178,7 @@
 </section>
 <section class="wpf-gopro wpf-gopro-wrapper wpf-gopro-bundle">
 	<div class="wpf-gopro-header-title">
-		<?php esc_html_e('OR SAVE OVER 60% WITH BUNDLE', 'woo-product-filter'); ?>
+		<?php esc_html_e('OR SAVE OVER 60% WITH BUNDLE', 'woo-product-filter'); ?>
 	</div>
 	<div class="wpf-gopro-header-subtitle">
 		<?php esc_html_e('Full collection of WooBeWoo WordPress Plugins', 'woo-product-filter'); ?>
@@ -187,7 +198,7 @@
 					<div class="wpf-gopro-title">
 						<?php esc_html_e('Unlimited', 'woo-product-filter'); ?>
 					</div>
-					<div class="wpf-gopro-price">$399.00</div>
+					<div class="wpf-gopro-price">$299.00</div>
 					<div class="wpf-gopro-desc">
 						<?php esc_html_e('Unlimited site', 'woo-product-filter'); ?>
 					</div>
@@ -273,7 +284,7 @@
 					<div class="wpf-gopro-title">
 						<?php esc_html_e('Unlimited', 'woo-product-filter'); ?>
 					</div>
-					<div class="wpf-gopro-price">$599.00</div>
+					<div class="wpf-gopro-price">$499.00</div>
 					<div class="wpf-gopro-desc">
 						<?php esc_html_e('Unlimited site', 'woo-product-filter'); ?>
 					</div>
@@ -300,7 +311,7 @@
 					<div class="wpf-gopro-title">
 						<?php esc_html_e('Up to Five Sites', 'woo-product-filter'); ?>
 					</div>
-					<div class="wpf-gopro-price">$249.00</div>
+					<div class="wpf-gopro-price">$349.00</div>
 					<div class="wpf-gopro-desc">
 						<?php esc_html_e('Five site', 'woo-product-filter'); ?>
 					</div>
@@ -327,7 +338,7 @@
 					<div class="wpf-gopro-title">
 						<?php esc_html_e('One Site', 'woo-product-filter'); ?>
 					</div>
-					<div class="wpf-gopro-price">$149.00</div>
+					<div class="wpf-gopro-price">$249.00</div>
 					<div class="wpf-gopro-desc">
 						<?php esc_html_e('Single site', 'woo-product-filter'); ?>
 					</div>
