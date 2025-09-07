@@ -2,7 +2,7 @@
 /**
  * Product Filter by WBW - WoofiltersViewWpf Class
  *
- * @version 2.8.6
+ * @version 2.9.7
  *
  * @author  woobewoo
  */
@@ -10,6 +10,7 @@
 defined( 'ABSPATH' ) || exit;
 
 class WoofiltersViewWpf extends ViewWpf {
+
 	private static $uniqueBlockId  = 0;
 	private static $filterOrderKey = 0;
 	protected static $blockId      = '';
@@ -28,39 +29,39 @@ class WoofiltersViewWpf extends ViewWpf {
 	protected static $currentFilterRecount = false;
 
 	/**
-	 * Filters with Taxonomy base terms list
-	 * We collect it with paying attention on a current wp_query and filtering results
+	 * Filters with Taxonomy base terms list.
+	 * We collect it with paying attention on a current wp_query and filtering results.
 	 *
 	 * @var null|array
 	 */
 	public static $filterExistsTerms = null;
 
 	/**
-	 * Filters with Taxonomy base terms list
-	 * We collect it without paying attention on a curren wp_query and filtering results
+	 * Filters with Taxonomy base terms list.
+	 * We collect it without paying attention on a current wp_query and filtering results.
 	 *
 	 * @var null|array
 	 */
 	public static $filterExistsTermsWithotFiltering = null;
 
 	/**
-	 * Exist Filters with user list
-	 * We collect it with paying attention on a current wp_query and filtering results
+	 * Exist Filters with user list.
+	 * We collect it with paying attention on a current wp_query and filtering results.
 	 *
 	 * @var null|array
 	 */
 	public static $filterExistsUsers;
 
 	/**
-	 * Exist Filters with prices
-	 * We collect it with paying attention on a current wp_query and filtering results
+	 * Exist Filters with prices.
+	 * We collect it with paying attention on a current wp_query and filtering results.
 	 *
 	 * @var null|array
 	 */
 	public static $filterExistsPrices;
 
 	/**
-	 * Filter id
+	 * Filter id.
 	 *
 	 * @var int
 	 */
@@ -78,7 +79,7 @@ class WoofiltersViewWpf extends ViewWpf {
 	);
 
 	/**
-	 * Specifies filter blocks to add indexes to
+	 * Specifies filter blocks to add indexes to.
 	 *
 	 * @var array
 	 */
@@ -94,6 +95,7 @@ class WoofiltersViewWpf extends ViewWpf {
 		}
 		self::$currentSettings = $settings;
 	}
+
 	public function getCurrentSettings( $id = 0 ) {
 		if ( ! empty($id) ) {
 			$settings = FrameWpf::_()->getModule('woofilters')->getModel('settings')->getFilterBlockSettings($id);
@@ -243,7 +245,7 @@ class WoofiltersViewWpf extends ViewWpf {
 		$viewId = $id . '_' . mt_rand(0, 999999);
 
 		switch ( $mode ) {
-			case 1: //categoty page
+			case 1: //category page
 				$catObj = get_queried_object();
 				$html   = $this->generateFiltersHtml($settings, $viewId, $catObj->term_id);
 				break;
@@ -305,7 +307,7 @@ class WoofiltersViewWpf extends ViewWpf {
 	}
 
 	/**
-	 * Find display custom style status
+	 * Find display custom style status.
 	 *
 	 * @param array $settings
 	 *
@@ -327,7 +329,7 @@ class WoofiltersViewWpf extends ViewWpf {
 	}
 
 	/**
-	 * Add comon styles and scripts.
+	 * Add common styles and scripts.
 	 *
 	 * @param string $modPath
 	 */
@@ -358,7 +360,7 @@ class WoofiltersViewWpf extends ViewWpf {
 	}
 
 	/**
-	 * Add assets  to render html(shortcode and widget)
+	 * Add assets  to render html(shortcode and widget).
 	 *
 	 * @param string $modPath
 	 */
@@ -414,7 +416,9 @@ class WoofiltersViewWpf extends ViewWpf {
 		self::$blockId = 'wpfBlock_' . self::$uniqueBlockId;
 	}
 
-	//for now after render we run once filtering, in order to display products on custom page.
+	/**
+	 * For now after render we run once filtering, in order to display products on custom page.
+	 */
 	public function renderProductsListHtml( $params ) {
 		$html      = '<div class="woocommerce wpfNoWooPage">';
 			$html .= '<p class="woocommerce-result-count"></p>';
@@ -429,7 +433,7 @@ class WoofiltersViewWpf extends ViewWpf {
 	}
 
 	/**
-	 * Set existing individual filter items to appropriate properties
+	 * Set existing individual filter items to appropriate properties.
 	 *
 	 * @param array $order
 	 * @param array $prodCatId
@@ -453,6 +457,7 @@ class WoofiltersViewWpf extends ViewWpf {
 
 		return self::$filterExistsTerms;
 	}
+
 	public function resetFilterExistsTerms() {
 		self::$filterExistsTerms = null;
 	}
@@ -460,13 +465,20 @@ class WoofiltersViewWpf extends ViewWpf {
 	public function setFilterCss( $css ) {
 		self::$filtersCss .= $css;
 	}
+
 	public function resetFiltersCss() {
 		self::$filtersCss = '';
 	}
+
 	public function setLeerFilter( $leer ) {
 		self::$isLeerFilter = $leer;
 	}
 
+	/**
+	 * generateFiltersHtml.
+	 *
+	 * @version 2.9.7
+	 */
 	public function generateFiltersHtml( $filterSettings, $viewId, $prodCatId = false, $noWooPage = false, $taxonomies = array() ) {
 		$customCss = '';
 		if ( ! empty($filterSettings['settings']['css_editor']) ) {
@@ -616,7 +628,7 @@ class WoofiltersViewWpf extends ViewWpf {
 		$html = DispatcherWpf::applyFilters('addHtmlBeforeFilter', $html, $settings, $viewId);
 
 		if ( ( 'top' === $buttonsPosition || 'both' === $buttonsPosition ) && ( $showFilteringButton || $showCleanButton ) ) {
-			$html .= '<div class="wpfFilterButtons">';
+			$html .= '<div class="wpfFilterButtons wpfFilterButtonsTop">';
 
 			if ( $showFilteringButton ) {
 				$html .= '<button class="wpfFilterButton wpfButton">' . __($filterButtonWord, 'woo-product-filter') . '</button>';
@@ -666,7 +678,6 @@ class WoofiltersViewWpf extends ViewWpf {
 		}
 
 		$blockHeight = $this->getFilterSetting($settingsOriginal['settings'], 'filter_block_height', false, true);
-		//$blockStyle  = 'visibility:hidden; width:' . $blockWidth . '; float:left; ' . ( $blockHeight ? 'height:' . $blockHeight . 'px;overflow: hidden;' : '' );
 		$showImmediately = $this->getFilterSetting($settingsOriginal['settings'], 'show_filter_immediately') == '1';
 		$blockStyle      =
 			( $showImmediately ? '' : 'visibility:hidden;' ) . 'width:' . $blockWidth . ';' .
@@ -714,7 +725,7 @@ class WoofiltersViewWpf extends ViewWpf {
 		}
 
 		if ( ( 'bottom' === $buttonsPosition || 'both' === $buttonsPosition ) && ( $showFilteringButton || $showCleanButton ) ) {
-			$html .= '<div class="wpfFilterButtons">';
+			$html .= '<div class="wpfFilterButtons wpfFilterButtonsBottom">';
 
 			if ( $showFilteringButton ) {
 				$html .= '<button class="wpfFilterButton wpfButton">' . esc_html__($filterButtonWord, 'woo-product-filter') . '</button>';
@@ -800,6 +811,7 @@ class WoofiltersViewWpf extends ViewWpf {
 		$html .= '</div>';
 		return $html;
 	}
+
 	public function generateIconCloseOpenTitleHtml( $filter, $filterSettings, $showTitle ) {
 		if ( empty($filter['settings']) || empty($filterSettings['settings']['hide_filter_icon']) ) {
 			return '';
@@ -822,6 +834,7 @@ class WoofiltersViewWpf extends ViewWpf {
 		}
 		return $icon;
 	}
+
 	public function generateDescriptionHtml( $filter ) {
 		$description = $this->getFilterSetting($filter['settings'], 'f_description', false);
 		if ( $description ) {
@@ -831,6 +844,7 @@ class WoofiltersViewWpf extends ViewWpf {
 		}
 		return $html;
 	}
+
 	public function generateBlockClearHtml( $filter, $filterSettings ) {
 		$html = '';
 		if ( $this->getFilterSetting($filterSettings['settings'], 'show_clean_block', false) ) {
@@ -840,6 +854,7 @@ class WoofiltersViewWpf extends ViewWpf {
 		}
 		return $html;
 	}
+
 	public function generateFilterHeaderHtml( $filter, $filterSettings, $noActive = true ) {
 
 		$showTitle = $this->getFilterSetting( $filter['settings'], 'f_enable_title' . ( UtilsWpf::isMobile() ? '_mobile' : '' ) );
@@ -885,6 +900,7 @@ class WoofiltersViewWpf extends ViewWpf {
 
 		return $html;
 	}
+
 	public function getMobileBreakpointOptionData( $filter, $filterSettings ) {
 		$titleMobileBreakpointData = '';
 
@@ -1054,6 +1070,7 @@ class WoofiltersViewWpf extends ViewWpf {
 
 		return array('is_ver' => $isVertical, 'cnt' => $cnt, 'class' => $addClass);
 	}
+
 	public function generatePriceRangeFilterHtml( $filter, $filterSettings, $blockStyle, $key = 1, $viewId = '' ) {
 		$settings  = $this->getFilterSetting($filter, 'settings', array());
 		$layout    = $this->getFilterLayout($settings, $filterSettings);
@@ -1135,8 +1152,8 @@ class WoofiltersViewWpf extends ViewWpf {
 		if ( 'list' === $type ) {
 			$html .= '</ul>';
 		}
-		$html .= '</div>';//end wpfCheckboxHier
-		$html .= '</div>';//end wpfFilterContent
+		$html .= '</div>'; //end wpfCheckboxHier
+		$html .= '</div>'; //end wpfFilterContent
 		$html .= '</div>'; //end wpfFilterWrapper
 
 		return $html;
@@ -1225,7 +1242,16 @@ class WoofiltersViewWpf extends ViewWpf {
 				$html .= '<ul class="wpfFilterVerScroll">' . $htmlOpt . '</ul>';
 				break;
 			case 'dropdown':
-				$html .= ( $perPageLeft ? $perPage : '' ) . '<label class="wpfSrOnly" for="wpfSortProducts">' . esc_html__('Sort Products', 'woo-product-filter') . '</label>' . '<select id="wpfSortProducts">' . $htmlOpt . '</select>' . ( $perPageLeft ? '' : $perPage );
+				$html .= (
+					( $perPageLeft ? $perPage : '' ) .
+					'<label class="wpfSrOnly" for="wpfSortProducts">' .
+						esc_html__('Sort Products', 'woo-product-filter') .
+					'</label>' .
+					'<select id="wpfSortProducts">' .
+						$htmlOpt .
+					'</select>' .
+					( $perPageLeft ? '' : $perPage )
+				);
 				break;
 			case 'mul_dropdown':
 				$settings['f_single_select']              = true;
@@ -1234,7 +1260,7 @@ class WoofiltersViewWpf extends ViewWpf {
 				$html                                    .= $this->getMultiSelectHtml( $htmlOpt, $settings );
 				break;
 		}
-		$html .= '</div>';//end wpfFilterContent
+		$html .= '</div>'; //end wpfFilterContent
 		$html .= '</div>'; //end wpfFilterWrapper
 
 		return $html;
@@ -1385,10 +1411,6 @@ class WoofiltersViewWpf extends ViewWpf {
 			if ( $this->getFilterSetting($settings, 'f_set_parent_page_category', false) ) {
 				$catSelected = array_merge($catSelected, get_ancestors($prodCatId, 'product_cat'));
 			}
-			/*$childs = get_term_children($prodCatId, 'product_cat');
-			if (is_array($childs)) {
-				$catSelected = array_merge($catSelected, $childs);
-			}*/
 			if ( $isEmpty && $includeCategoryId ) {
 				foreach ( $catSelected as $cat ) {
 					if ( in_array($cat, $includeCategoryId) ) {
@@ -1481,14 +1503,13 @@ class WoofiltersViewWpf extends ViewWpf {
 
 		$showCount    = $this->getFilterSetting($settings, 'f_show_count', false) ? ' wpfShowCount' : '';
 		$hierarchical = $isHierarchical ? 'true' : 'false';
-		//$iniqId       = empty($filter['uniqId']) ? '' : $filter['uniqId'];
+
 		$html =
 			'<div class="wpfFilterWrapper ' . $noActive . $showCount . $preselected . '"' .
 
 				$this->setFitlerId() .
 				$this->setCommonFitlerDataAttr($filter, $filterName, $type) .
 
-				//' data-uniq-id="' . $iniqId .
 				' data-radio="' . ( 'list' === $type ? '1' : '0' ) .
 				'" data-query-logic="' . $logic . $notValues .
 				'" data-logic-hierarchical="' . $this->getFilterSetting($settings, 'f_multi_logic_hierarchical', 'any') .
@@ -1554,7 +1575,7 @@ class WoofiltersViewWpf extends ViewWpf {
 	}
 
 	/**
-	 * Generate custom taxonomy filter for a specific plugin
+	 * Generate custom taxonomy filter for a specific plugin.
 	 *
 	 * @link https://wordpress.org/plugins/perfect-woocommerce-brands/
 	 *
@@ -1892,7 +1913,6 @@ class WoofiltersViewWpf extends ViewWpf {
 			));
 		}
 
-		//$noActive    = $defSelected ? '' : 'wpfNotActive';
 		$noActive    = $defSelected || $setCurTag ? '' : 'wpfNotActive';
 		$noActive    = $hidden_tags ? 'wpfHidden' : $noActive;
 		$preselected = $hidden_tags ? ' wpfPreselected' : '';
@@ -2262,7 +2282,7 @@ class WoofiltersViewWpf extends ViewWpf {
 		$html .= $this->generateFilterHeaderHtml($filter, $filterSettings, $noActive);
 		$html .= $this->generateDescriptionHtml($filter);
 		$html .= $htmlOpt;
-		$html .= '</div>';//end wpfFilterContent
+		$html .= '</div>'; //end wpfFilterContent
 		$html .= '</div>'; //end wpfFilterWrapper
 
 		return $html;
@@ -2613,7 +2633,7 @@ class WoofiltersViewWpf extends ViewWpf {
 	}
 
 	/**
-	 * Get curent taxonomy terms (as exeption right now we use it also with acf meta)
+	 * Get current taxonomy terms (as exception right now we use it also with acf meta).
 	 *
 	 * @param string $taxonomy
 	 * @param bool $showAll
@@ -2723,9 +2743,8 @@ class WoofiltersViewWpf extends ViewWpf {
 		return isset($args['wpf_orderby']) ? 'FIELD( t.term_id, ' . $args['wpf_orderby'] . ')' : $orderby;
 	}
 
-
 	/**
-	 * Recursively get taxonomy and its children
+	 * Recursively get taxonomy and its children.
 	 *
 	 * @param string $taxonomy
 	 * @param int $parent - parent term id
@@ -2734,7 +2753,7 @@ class WoofiltersViewWpf extends ViewWpf {
 	public function getTaxonomyHierarchy( $taxonomy, $argsIn, $parent = true ) {
 		// only 1 taxonomy
 		$taxonomy = is_array( $taxonomy ) ? array_shift( $taxonomy ) : $taxonomy;
-		// get all direct decendants of the $parent
+		// get all direct descendants of the $parent
 		$args = array(
 			'taxonomy'   => $taxonomy,
 			'hide_empty' => $argsIn['hide_empty'],
@@ -2781,7 +2800,7 @@ class WoofiltersViewWpf extends ViewWpf {
 		}
 
 		$children = array();
-		// go through all the direct decendants of $parent, and gather their children
+		// go through all the direct descendants of $parent, and gather their children
 		if ( ! is_wp_error($terms) ) {
 			foreach ( $terms as $term ) {
 				if ( empty($argsIn['only_parent']) ) {
@@ -2795,7 +2814,7 @@ class WoofiltersViewWpf extends ViewWpf {
 							$args['orderby'] = ! empty($argsIn['orderby']) ? $argsIn['orderby'] : 'name';
 						}
 
-						// recurse to get the direct decendants of "this" term
+						// recurse to get the direct descendants of "this" term
 						$term->children = $this->getTaxonomyHierarchy( $taxonomy, $args, false );
 					}
 				}
@@ -3278,6 +3297,7 @@ class WoofiltersViewWpf extends ViewWpf {
 		}
 		return $page_id;
 	}
+
 	public function wpfCurrentLocation() {
 		if ( empty($_SERVER['HTTP_HOST']) ) {
 			return '';
@@ -3325,7 +3345,7 @@ class WoofiltersViewWpf extends ViewWpf {
 	}
 
 	/**
-	 * Resolve post type product taxonomies dependency with standard product_cat
+	 * Resolve post type product taxonomies dependency with standard product_cat.
 	 *
 	 * @param string $taxonomySlug
 	 * @param string $metaSlug
@@ -3345,7 +3365,7 @@ class WoofiltersViewWpf extends ViewWpf {
 	}
 
 	/**
-	 * Resolce depricated settings optionality
+	 * Resolve deprecated settings optionality.
 	 *
 	 * @param string $settings
 	 *
@@ -3366,7 +3386,7 @@ class WoofiltersViewWpf extends ViewWpf {
 	}
 
 	/**
-	 * Get filter settings with mobile breakpoin value
+	 * Get filter settings with mobile breakpoint value.
 	 *
 	 * @param array $settings
 	 *
@@ -3447,15 +3467,9 @@ class WoofiltersViewWpf extends ViewWpf {
 	}
 
 	public function getChildrenOfIncludedCategories( $taxonomy, $categoryIds ) {
-		//remove_all_filters('get_terms');
 		$output = array();
 		foreach ( $categoryIds as $categoryId ) {
-			/*$args  = array(
-				'child_of' => $categoryId,
-				'fields' => 'ids'
-			);
-			$terms = get_terms($taxonomy, $args);*/
-			$terms = get_term_children($categoryId, $taxonomy); //this function is more faster
+			$terms = get_term_children($categoryId, $taxonomy); //this function is faster
 			if ( ! empty($terms) ) {
 				$output = array_merge($output, $terms);
 			}
@@ -3465,7 +3479,7 @@ class WoofiltersViewWpf extends ViewWpf {
 	}
 
 	/**
-	 * Get pagination base structure
+	 * Get pagination base structure.
 	 *
 	 * @return array
 	 */
@@ -3479,7 +3493,7 @@ class WoofiltersViewWpf extends ViewWpf {
 		}
 
 		/**
-		 * Plugin compatibility
+		 * Plugin compatibility.
 		 *
 		 * @link https://www.elegantthemes.com/gallery/divi/
 		 */
@@ -3528,14 +3542,14 @@ class WoofiltersViewWpf extends ViewWpf {
 	}
 
 	/**
-	 * Set filter id
+	 * Set filter id.
 	 */
 	public function setFitlerId() {
 		return ' id="' . self::$blockId . '" data-order-key="' . self::$filterOrderKey . '" ';
 	}
 
 	/**
-	 * Set filter common data attributes
+	 * Set filter common data attributes.
 	 *
 	 * @param array $filter
 	 * @param string $filterName
@@ -3594,8 +3608,7 @@ class WoofiltersViewWpf extends ViewWpf {
 	 * @version 2.8.6
 	 * @since   2.8.6
 	 */
-	protected function getRealDropdownLabel( $settings, $default )
-	{
+	protected function getRealDropdownLabel( $settings, $default ) {
 		$dropdownLabel = $this->getFilterSetting($settings, 'f_title', '');
 		if ( !$dropdownLabel ) {
 			$dropdownLabel = $this->getFilterSetting($settings, 'f_dropdown_first_option_text', $default);
@@ -3603,4 +3616,5 @@ class WoofiltersViewWpf extends ViewWpf {
 
 		return $dropdownLabel;
 	}
+
 }
