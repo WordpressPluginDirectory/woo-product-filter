@@ -2,7 +2,7 @@
 /**
  * Product Filter by WBW - WoofiltersWpf Class
  *
- * @version 2.9.5
+ * @version 2.9.9
  *
  * @author  woobewoo
  */
@@ -45,7 +45,7 @@ class WoofiltersWpf extends ModuleWpf {
 	/**
 	 * init.
 	 *
-	 * @version 2.8.6
+	 * @version 2.9.9
 	 */
 	public function init() {
 		DispatcherWpf::addFilter( 'mainAdminTabs', array( $this, 'addAdminTab' ) );
@@ -204,6 +204,30 @@ class WoofiltersWpf extends ModuleWpf {
 		if ( is_plugin_active( 'jet-woo-builder/jet-woo-builder.php' ) ) {
 			add_filter('jet-woo-builder/shortcodes/jet-woo-products/final-query-args', array($this, 'replaceArgsIfJetWooBuilderUsed'));
 		}
+
+		// Discourages search engines from indexing.
+		add_action( 'wp_robots', array( $this, 'discourage_search_engines_from_indexing' ), 20 );
+	}
+
+	/**
+	 * Discourages search engines from indexing if the current URL has params starting with `wpf_`.
+	 *
+	 * @version 2.9.9
+	 * @since   2.9.9
+	 *
+	 * @param $robots
+	 *
+	 * @return mixed
+	 */
+	function discourage_search_engines_from_indexing( $robots ) {
+		if (
+			FrameWpf::_()->getModule( 'options' )->getModel()->get( 'discourage_search_engines_from_indexing' ) &&
+			! empty( preg_grep( '/^wpf_/', array_keys( $_GET ) ) )
+		) {
+			$robots['noindex'] = true;
+		}
+
+		return $robots;
 	}
 
 	/**
@@ -2119,6 +2143,8 @@ class WoofiltersWpf extends ModuleWpf {
 
 	/**
 	 * addBeforeFiltersFrontendArgs.
+	 *
+	 * @version 2.9.8
 	 */
 	public function addBeforeFiltersFrontendArgs( $args, $filterSettings = array(), $urlQuery = array() ) {
 
@@ -2217,7 +2243,7 @@ class WoofiltersWpf extends ModuleWpf {
 											}
 										}
 										if ( ! empty( $termIds ) ) {
-											$whereNot .= ( empty( $whereNot ) ? '' : $whAnd ) . $wpdb->posts . '.ID NOT IN (SELECT object_id FROM `wp_term_relationships` WHERE term_taxonomy_id IN (' . implode( ',', $termIds ) . '))';
+											$whereNot .= ( empty( $whereNot ) ? '' : $whAnd ) . $wpdb->posts . '.ID NOT IN (SELECT object_id FROM `wp_term_relationships` WHERE term_taxonomy_id IN (' . implode( ',', array_map( 'intval', $termIds ) ) . '))';
 										}
 										unset( $tax_query[ $k ] );
 									}
